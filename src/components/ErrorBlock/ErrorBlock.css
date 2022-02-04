@@ -1,0 +1,15 @@
+.error-block {
+  font-size: 11px;
+  color: #fff;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.error-block .error-block-msg {
+  margin-bottom: 3px;
+}
+
+.error-block .error-block-msg:last-child {
+  margin-bottom: 0;
+}

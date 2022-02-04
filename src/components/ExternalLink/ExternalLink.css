@@ -1,0 +1,10 @@
+.external-link {
+  display: flex;
+  padding: 3px 6px;
+  border-radius: 12px;
+  align-items: center;
+}
+
+.external-link .external-link-link-icon {
+  margin-left: 7px;
+}

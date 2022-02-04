@@ -1,0 +1,35 @@
+{
+  "name": "@deskpro/mailchimp",
+  "title": "Mailchimp",
+  "description": "View details of Mailchimp audiences and campaigns that a user is associated with",
+  "version": "0.1.4",
+  "scope": "agent",
+  "isSingleInstall": true,
+  "targets": [{
+    "target": "user_sidebar",
+    "entrypoint": "index.html"
+  }],
+  "settings": {
+    "domain": {
+      "title": "Domain",
+      "description": "Your Mailchimp API subdomain, e.g. \"us20\"",
+      "type": "string",
+      "isRequired": true,
+      "isBackendOnly": false
+    },
+    "api_key": {
+      "title": "API Key",
+      "description": "Your Mailchimp API key",
+      "type": "string",
+      "isRequired": true,
+      "isBackendOnly": true
+    }
+  },
+  "proxy": {
+    "whitelist": [{
+      "url": "https://(.*).api.mailchimp.com/.*",
+      "methods": ["GET", "POST", "PUT"],
+      "timeout": 20
+    }]
+  }
+}
