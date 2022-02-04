@@ -4,10 +4,11 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75%"
   },
   "dependencies": {
-    "@deskpro/app-sdk": "^0.1.1",
+    "@deskpro/app-sdk": "^0.1.3",
     "formik": "^2.2.9",
     "iframe-resizer": "4.3.2",
     "lodash": "^4.17.21",
@@ -18,11 +19,18 @@
   },
   "devDependencies": {
     "@originjs/vite-plugin-commonjs": "1.0.1",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@types/jest": "^27.4.0",
     "@types/lodash": "^4.14.178",
     "@types/react": "17.0.38",
     "@types/react-dom": "17.0.11",
+    "@types/testing-library__jest-dom": "^5.14.2",
     "@vitejs/plugin-react": "^1.1.1",
+    "cross-env": "7.0.3",
+    "jest": "^27.4.7",
     "rollup-plugin-copy": "3.4.0",
+    "ts-jest": "^27.1.2",
     "typescript": "4.5.5",
     "vite": "^2.7.1"
   }

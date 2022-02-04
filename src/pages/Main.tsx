@@ -23,19 +23,19 @@ export const Main = () => {
   const { client } = useDeskproAppClient();
 
   useDeskproAppEvents({
-    onReady: (c: Context) => {
-      const data = c.data as UserContextData;
-
-      setUserEmail(data.user.primaryEmail);
-      setUserName(data.user.name);
-      setSettings(c.settings);
+    onReady: (c: Context<UserContextData>) => {
+      if (c.data) {
+        setUserEmail(c.data.user.primaryEmail);
+        setUserName(c.data.user.name);
+        setSettings(c.settings);
+      }
     },
-    onChange: (c: Context) => {
-      const data = c.data as UserContextData;
-
-      setUserEmail(data.user.primaryEmail);
-      setUserName(data.user.name);
-      setSettings(c.settings);
+    onChange: (c: Context<UserContextData>) => {
+      if (c.data) {
+        setUserEmail(c.data.user.primaryEmail);
+        setUserName(c.data.user.name);
+        setSettings(c.settings);
+      }
     },
   });
 
