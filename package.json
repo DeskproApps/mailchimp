@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "rimraf ./dist/* && tsc && vite build && rimraf ./dist/assets/*.*.svg",
+    "build:package": "yarn build && yarn package",
+    "package": "node ./bin/package.js",
     "serve": "vite preview",
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=1024 jest --maxWorkers=75%"
   },
@@ -27,9 +29,12 @@
     "@types/react-dom": "17.0.11",
     "@types/testing-library__jest-dom": "^5.14.2",
     "@vitejs/plugin-react": "^1.1.1",
+    "adm-zip": "^0.5.9",
     "cross-env": "7.0.3",
     "jest": "^27.4.7",
+    "rimraf": "^3.0.2",
     "rollup-plugin-copy": "3.4.0",
+    "slugify": "^1.6.5",
     "ts-jest": "^27.1.2",
     "typescript": "4.5.5",
     "vite": "^2.7.1"
