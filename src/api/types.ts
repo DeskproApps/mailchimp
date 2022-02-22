@@ -7,6 +7,7 @@ export interface Member {
   fullName: string;
   rating: number;
   status: MemberStatus;
+  listId: string;
 }
 
 export interface Audience {

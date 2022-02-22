@@ -73,6 +73,14 @@ export const getMember = async (client: IDeskproClient, email: string): Promise<
     const response = await dpFetch(`${MAILCHIMP_API_BASE_URL}/search-members?query=${email}`);
     const data = await response.json();
 
+    // console.log("DATA", "MEMBERS", data.exact_matches.members.map((m: any) => ({
+    //   contact_id: m.contact_id,
+    //   email_address: m.email_address,
+    //   list_id: m.list_id,
+    //   status: m.status,
+    //   webId: m.web_id,
+    // })));
+
     if (!data.exact_matches.members) {
       return null;
     }
@@ -90,9 +98,36 @@ export const getMember = async (client: IDeskproClient, email: string): Promise<
       fullName: member.full_name,
       rating: member.member_rating,
       status: member.status,
+      listId: member.list_id,
     };
   } catch (e) {
     console.error(`Failed to fetch member details from Mailchimp: ${e}`, e);
+    return null;
+  }
+};
+
+export const getMemberLists = async (client: IDeskproClient, email: string): Promise<Member[]|null> => {
+  const dpFetch = await proxyFetch(client);
+
+  try {
+    const response = await dpFetch(`${MAILCHIMP_API_BASE_URL}/search-members?query=${email}`);
+    const data = await response.json();
+
+    if (!data.exact_matches.members) {
+      return null;
+    }
+
+    return (data.exact_matches.members ?? []).map((m: any) => ({
+      id: m.id,
+      webId: m.web_id,
+      email: m.email_address,
+      fullName: m.full_name,
+      rating: m.member_rating,
+      status: m.status,
+      listId: m.list_id,
+    } as Member));
+  } catch (e) {
+    console.error(`Failed to fetch member lists from Mailchimp: ${e}`, e);
     return null;
   }
 };
@@ -121,7 +156,7 @@ export const getAudiences = async (client: IDeskproClient, email?: string): Prom
   }
 }
 
-export const updateAudienceSubscription = async (client: IDeskproClient, audienceId: string, email: string, status: AudienceStatus): Promise<void> => {
+export const updateAudienceSubscription = async (client: IDeskproClient, audienceId: string, email: string, status: AudienceStatus): Promise<boolean|string[]> => {
   const dpFetch = await proxyFetch(client);
 
   try {
@@ -135,9 +170,19 @@ export const updateAudienceSubscription = async (client: IDeskproClient, audienc
         }],
       }),
     });
+
+    const data = await res.json();
+
+    if (data?.errors) {
+      return (data?.errors ?? []).map((e: { error: string }) => e.error);
+    }
+
+    return true;
   } catch (e) {
     console.error(`Failed to update audience subscription status in Mailchimp: ${e}`);
   }
+
+  return false;
 }
 
 export const subscribeNewAudienceMember = async (client: IDeskproClient, audienceId: string, email: string, name: string): Promise<boolean|string[]> => {
