@@ -17,6 +17,7 @@ import { getAudiences, subscribeNewAudienceMember, updateAudienceSubscription } 
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ErrorBlock } from "../ErrorBlock/ErrorBlock";
+import {SetNextPage} from "../../pages/types";
 
 interface AudiencesProps {
     memberLists: Member[]|null;
@@ -24,9 +25,10 @@ interface AudiencesProps {
     userName: string;
     userEmail: string;
     reloadMembers: () => Promise<void>;
+    setNextPage: SetNextPage;
 }
 
-export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName, userEmail, reloadMembers }: AudiencesProps) => {
+export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName, userEmail, reloadMembers, setNextPage }: AudiencesProps) => {
     const {client} = useDeskproAppClient();
     const [audiences, setAudiences] = useState<AudienceList|undefined>(undefined);
     const [audienceLoading, setAudienceLoading] = useState<string|null>(null);
@@ -91,6 +93,10 @@ export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName,
         () => subscribedMembers.length,
         [subscribedMembers]
     );
+
+    useInitialisedDeskproAppClient((client) => {
+        client.setBadgeCount(numSubscribedMembers);
+    }, [numSubscribedMembers]);
 
     const unsubscribeAll = () => {
         if (!client) {
@@ -166,9 +172,18 @@ export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName,
                                   </span>
                                 </Tooltip>
                             )}
-                            <label htmlFor={audience.id} className="audience-label">
+                            <span
+                                onClick={() => setNextPage("view", {
+                                    audience: audience,
+                                    member: findMember(memberLists, audience),
+                                    userName,
+                                    userEmail,
+                                    settings,
+                                })}
+                                className="audience-label"
+                            >
                                 {audience.name}
-                            </label>
+                            </span>
                         </Stack>
                         <ExternalLink href={`https://${settings.domain}.admin.mailchimp.com/lists/members?id=${audience.webId}#p:1-s:25-sa:last_update_time-so:false`}/>
                     </Stack>

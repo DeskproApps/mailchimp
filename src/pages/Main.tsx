@@ -1,89 +1,72 @@
-import React, { useEffect, useState } from "react";
-import {
-  Context,
-  Section,
-  LoadingSpinner,
-  useDeskproAppClient,
-  useDeskproAppEvents
-} from "@deskpro/app-sdk";
-import { Contact } from "../components/Contact/Contact";
-import { HorizontalDivider } from "../components/Divider/Divider";
-import { Audiences } from "../components/Audiences/Audiences";
-import { Campaigns } from "../components/Campaigns/Campaigns";
-import { Member } from "../api/types";
-import { getMemberLists } from "../api/api";
-import { UserContextData } from "../types";
+import React, {ReactNode, useState} from "react";
+import {Page, Settings} from "./types";
+import {match} from "ts-pattern";
+import {Home} from "./Home";
+import {View} from "./View";
+import {Context, useDeskproAppEvents} from "@deskpro/app-sdk";
+import {UserContextData} from "../types";
 
 export const Main = () => {
+  const [page, setPage] = useState<Page>("home");
+  const [pageProps, setPageProps] = useState<any>(undefined);
+
   const [userEmail, setUserEmail] = useState<string|null>(null);
   const [userName, setUserName] = useState<string|null>(null);
-  const [memberLists, setMemberLists] = useState<Member[]|null|undefined>(undefined);
-  const [settings, setSettings] = useState<{ domain?: string; }>({});
-
-  const { client } = useDeskproAppClient();
+  const [settings, setSettings] = useState<Settings>({});
 
   useDeskproAppEvents({
     onReady: (c: Context) => {
       const data = c.data as UserContextData;
 
-      setUserEmail(data.user.primaryEmail);
-      setUserName(data.user.name);
-      setSettings(c.settings);
+      if (data?.user?.primaryEmail) {
+        setUserEmail(data.user.primaryEmail);
+      }
+
+      if (data?.user?.name) {
+        setUserName(data.user.name);
+      }
+
+      if (c?.settings) {
+        setSettings(c.settings);
+      }
     },
     onChange: (c: Context) => {
       const data = c.data as UserContextData;
 
-      setUserEmail(data.user.primaryEmail);
-      setUserName(data.user.name);
-      setSettings(c.settings);
+      if (data?.user?.primaryEmail) {
+        setUserEmail(data.user.primaryEmail);
+      }
+
+      if (data?.user?.name) {
+        setUserName(data.user.name);
+      }
+
+      if (c?.settings) {
+        setSettings(c.settings);
+      }
     },
   });
 
-  const loadMember = async () => {
-    if (client && userEmail) {
-      return getMemberLists(client, userEmail).then(setMemberLists);
-    }
+  const setPageNext = (page: Page, props: any) => {
+    setPageProps(props);
+    setPage(page);
   };
 
-  useEffect(() => {
-    loadMember();
-  }, [userEmail, client]);
-
-  if (!userName) {
-    return (<></>);
-  }
-
-  if (!userEmail) {
-    return (<></>);
-  }
-
-  if (memberLists === undefined) {
-    return (<LoadingSpinner />);
-  }
-
-  return (
-    <div className="page-main">
-      <Section>
-        {/* todo: check that all members have the same ID, as some old/stale member IDs may be present in this list */}
-        {(memberLists && memberLists[0]) ? (
-            <Contact member={memberLists[0]} userName={userName} userEmail={userEmail} settings={settings} />
-        ) : (
-            <Contact member={null} userName={userName} userEmail={userEmail} settings={settings} />
-        )}
-      </Section>
-      <HorizontalDivider />
-
-      <Section>
-        <Audiences memberLists={memberLists} settings={settings} userName={userName} userEmail={userEmail} reloadMembers={loadMember} />
-      </Section>
-
-      <HorizontalDivider />
-      {/* todo: check that all members have the same ID, as some old/stale member IDs may be present in this list */}
-      {(memberLists && memberLists[0]) && (
-        <Section>
-          <Campaigns member={memberLists[0]} settings={settings} />
-        </Section>
-      )}
-    </div>
-  );
+  return match<Page, ReactNode>(page)
+      .with("home", () => <Home
+          setNextPage={setPageNext}
+          userEmail={userEmail}
+          userName={userName}
+          settings={settings}
+          {...pageProps}
+      />)
+      .with("view", () => <View
+          setNextPage={setPageNext}
+          userEmail={userEmail}
+          userName={userName}
+          settings={settings}
+          {...pageProps}
+      />)
+      .exhaustive()
+  ;
 };

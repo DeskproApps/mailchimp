@@ -73,14 +73,6 @@ export const getMember = async (client: IDeskproClient, email: string): Promise<
     const response = await dpFetch(`${MAILCHIMP_API_BASE_URL}/search-members?query=${email}`);
     const data = await response.json();
 
-    // console.log("DATA", "MEMBERS", data.exact_matches.members.map((m: any) => ({
-    //   contact_id: m.contact_id,
-    //   email_address: m.email_address,
-    //   list_id: m.list_id,
-    //   status: m.status,
-    //   webId: m.web_id,
-    // })));
-
     if (!data.exact_matches.members) {
       return null;
     }

@@ -4,6 +4,7 @@
 
 .audience-checkbox-row .audience-label {
     font-size: 12px;
+    cursor: pointer;
 }
 
 .audience-controls {
