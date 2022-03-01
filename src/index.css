@@ -6,3 +6,16 @@ body {
   overflow: auto;
   padding-bottom: 30px;
 }
+
+.gdpr-label {
+  font-size: 12px;
+}
+
+.message-success {
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  padding: 6px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}

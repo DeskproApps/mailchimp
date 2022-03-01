@@ -8,6 +8,7 @@ import {
 } from "./types";
 import { Md5 } from "ts-md5/dist/md5";
 import { orderBy, uniqBy } from "lodash";
+import {UserName} from "../types";
 
 const MAILCHIMP_API_BASE_URL = "https://x:__api_key__@__domain__.api.mailchimp.com/3.0";
 
@@ -66,38 +67,6 @@ const campaignActivityImportanceActions = (
   ];
 };
 
-export const getMember = async (client: IDeskproClient, email: string): Promise<Member|null> => {
-  const dpFetch = await proxyFetch(client);
-
-  try {
-    const response = await dpFetch(`${MAILCHIMP_API_BASE_URL}/search-members?query=${email}`);
-    const data = await response.json();
-
-    if (!data.exact_matches.members) {
-      return null;
-    }
-
-    if (data.exact_matches.members.length !== 1) {
-      return null;
-    }
-
-    const member = data.exact_matches.members.pop();
-
-    return {
-      id: member.id,
-      webId: member.web_id,
-      email: member.email_address,
-      fullName: member.full_name,
-      rating: member.member_rating,
-      status: member.status,
-      listId: member.list_id,
-    };
-  } catch (e) {
-    console.error(`Failed to fetch member details from Mailchimp: ${e}`, e);
-    return null;
-  }
-};
-
 export const getMemberLists = async (client: IDeskproClient, email: string): Promise<Member[]|null> => {
   const dpFetch = await proxyFetch(client);
 
@@ -117,6 +86,11 @@ export const getMemberLists = async (client: IDeskproClient, email: string): Pro
       rating: m.member_rating,
       status: m.status,
       listId: m.list_id,
+      marketingPermissions: (m.marketing_permissions ?? []).map((p: any) => ({
+        id: p.marketing_permission_id,
+        text: p.text,
+        enabled: p.enabled,
+      })),
     } as Member));
   } catch (e) {
     console.error(`Failed to fetch member lists from Mailchimp: ${e}`, e);
@@ -177,21 +151,21 @@ export const updateAudienceSubscription = async (client: IDeskproClient, audienc
   return false;
 }
 
-export const subscribeNewAudienceMember = async (client: IDeskproClient, audienceId: string, email: string, name: string): Promise<boolean|string[]> => {
+export const subscribeNewAudienceMember = async (client: IDeskproClient, audienceId: string, email: string, name: UserName): Promise<boolean|string[]> => {
   const dpFetch = await proxyFetch(client);
-  const nameParts = name.split(" ");
 
   try {
-    const subscriberHash = Md5.hashStr(email.toLowerCase());
+    const emailParsed = email.trim().toLowerCase();
+    const subscriberHash = Md5.hashStr(emailParsed);
 
     const res = await dpFetch(`${MAILCHIMP_API_BASE_URL}/lists/${audienceId}/members/${subscriberHash}`, {
       method: "PUT",
       body: JSON.stringify({
-        email_address: email,
+        email_address: emailParsed,
         status: "subscribed",
         merge_fields: {
-          FNAME: nameParts[0],
-          LNAME: nameParts[1] ?? "",
+          FNAME: name.first,
+          LNAME: name.last,
         },
       }),
     });
@@ -224,40 +198,50 @@ export const subscribeNewAudienceMember = async (client: IDeskproClient, audienc
   }
 };
 
-export const getCampaignActivity = async (client: IDeskproClient, member: Member): Promise<CampaignActivities|null> => {
+export const getCampaignActivity = async (client: IDeskproClient, members: Member[]): Promise<CampaignActivities|null> => {
   const dpFetch = await proxyFetch(client);
 
+  const allActivities: CampaignActivities = [];
+
   try {
-    const campaignsResponse = await dpFetch(`${MAILCHIMP_API_BASE_URL}/campaigns/?offset=0&count=1000&member_id=${member.id}`);
-    const campaigns = await campaignsResponse.json();
+    const requests = members.map(async (member: Member) => {
+      const resultActivities: CampaignActivities = [];
 
-    const subscriberHash = Md5.hashStr(member.email.toLowerCase());
+      const campaignsResponse = await dpFetch(`${MAILCHIMP_API_BASE_URL}/campaigns/?offset=0&count=1000&member_id=${member.id}`);
+      const campaigns = await campaignsResponse.json();
 
-    const allActivities: CampaignActivities = [];
+      const subscriberHash = Md5.hashStr(member.email.toLowerCase());
 
-    for (const campaign of (campaigns.campaigns ?? [])) {
-      const activityResponse = await dpFetch(`${MAILCHIMP_API_BASE_URL}/reports/${campaign.id}/email-activity/${subscriberHash}`);
-      const activities = await activityResponse.json();
+      for (const campaign of (campaigns.campaigns ?? [])) {
+        const activityResponse = await dpFetch(`${MAILCHIMP_API_BASE_URL}/reports/${campaign.id}/email-activity/${subscriberHash}`);
+        const activities = await activityResponse.json();
 
-      const events = activities.activity ?? [];
+        const events = activities.activity ?? [];
 
-      const [actions, date] = campaignActivityImportanceActions(events.length === 0
-        ? [campaign.status]
-        : events,
-        new Date(campaign.send_time),
-        campaign.status
-      );
+        const [actions, date] = campaignActivityImportanceActions(events.length === 0
+                ? [campaign.status]
+                : events,
+            new Date(campaign.send_time),
+            campaign.status
+        );
 
-      allActivities.push({
-        id: campaign.id,
-        webId: campaign.web_id,
-        name: campaign.settings.title ?? campaign.settings.subject_line,
-        actions,
-        date,
-      });
-    }
+        resultActivities.push({
+          id: campaign.id,
+          webId: campaign.web_id,
+          name: campaign.settings.title ?? campaign.settings.subject_line,
+          actions,
+          date,
+        });
+      }
 
-    return orderBy(allActivities, (item) => item.date, ['desc']);
+      return resultActivities;
+    });
+
+    (await Promise.all(requests))
+        .forEach((as) => as.forEach((a) => allActivities.push(a)))
+    ;
+
+    return orderBy(uniqBy(allActivities, "id"), (item) => item.date, ['desc']);
   } catch (e) {
     console.error(`Failed to fetch campaigns from Mailchimp: ${e}`);
     return null;
@@ -282,5 +266,35 @@ export const enableAllMarketingPermissions = async (
 
   if (res.status !== 200) {
     throw new Error("Failed to enable all member marketing preferences");
+  }
+};
+
+export const setMarketingPermissions = async (client: IDeskproClient, audienceId: string, memberId: string, permissions: Record<string, boolean>) => {
+  const dpFetch = await proxyFetch(client);
+
+  const res = await dpFetch(`${MAILCHIMP_API_BASE_URL}/lists/${audienceId}/members/${memberId}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      marketing_permissions: Object.keys(permissions).map((id) => ({
+        marketing_permission_id: id,
+        enabled: permissions[id],
+      })),
+    }),
+  });
+
+  if (res.status !== 200) {
+    throw new Error("Failed to set member marketing preferences");
+  }
+};
+
+export const archiveMember = async (client: IDeskproClient, audienceId: string, memberId: string) => {
+  const dpFetch = await proxyFetch(client);
+
+  const res = await dpFetch(`${MAILCHIMP_API_BASE_URL}/lists/${audienceId}/members/${memberId}`, {
+    method: "DELETE",
+  });
+
+  if (res.status !== 204) {
+    throw new Error("Failed to archive member");
   }
 };

@@ -8,6 +8,11 @@ export interface Member {
   rating: number;
   status: MemberStatus;
   listId: string;
+  marketingPermissions: {
+    id: string;
+    text: string;
+    enabled: boolean;
+  }[];
 }
 
 export interface Audience {

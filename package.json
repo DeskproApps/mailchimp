@@ -7,7 +7,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@deskpro/app-sdk": "^0.1.10",
+    "@deskpro/app-sdk": "^0.1.16",
     "formik": "^2.2.9",
     "iframe-resizer": "4.3.2",
     "lodash": "^4.17.21",

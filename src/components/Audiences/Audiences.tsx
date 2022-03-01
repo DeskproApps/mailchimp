@@ -18,11 +18,12 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ErrorBlock } from "../ErrorBlock/ErrorBlock";
 import {SetNextPage} from "../../pages/types";
+import {UserName} from "../../types";
 
 interface AudiencesProps {
     memberLists: Member[]|null;
     settings: { domain?: string; };
-    userName: string;
+    userName: UserName;
     userEmail: string;
     reloadMembers: () => Promise<void>;
     setNextPage: SetNextPage;
@@ -140,6 +141,7 @@ export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName,
             )}
             {audiences.map((audience, idx: number) => {
                 const subscribed = isSubscribed(memberLists, audience);
+                const member = findMember(memberLists, audience);
 
                 return (
                     <Stack gap={8} align="center" className="audience-checkbox-row" key={idx}>
@@ -164,10 +166,10 @@ export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName,
                                         onChange={(e: ChangeEvent<HTMLInputElement>) => toggleSubscription(
                                             e.target.checked,
                                             audience,
-                                            findMember(memberLists, audience)
+                                            member
                                         )}
                                         size={14}
-                                        disabled={audienceLoading !== null || unsubscribeAllLoading}
+                                        disabled={audienceLoading !== null || unsubscribeAllLoading || ["cleaned", "pending", "transactional"].includes(member?.status ?? "")}
                                     />
                                   </span>
                                 </Tooltip>

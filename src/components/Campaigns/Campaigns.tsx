@@ -16,25 +16,25 @@ import { getCampaignActivity } from "../../api/api";
 import { CampaignAction } from "../CampaignAction/CampaignAction";
 
 export interface CampaignsProps {
-  member: Member|null;
+  members: Member[];
   settings: { domain?: string; };
 }
 
-export const Campaigns: FC<CampaignsProps> = ({ member, settings }: CampaignsProps) => {
+export const Campaigns: FC<CampaignsProps> = ({ members, settings }: CampaignsProps) => {
   const [campaignActivities, setCampaignActivities] = useState<CampaignActivities|undefined>(undefined);
   const { client } = useDeskproAppClient();
 
   useEffect(() => {
-    if (!client || !member) {
+    if (!client) {
       return;
     }
 
-    getCampaignActivity(client, member)
+    getCampaignActivity(client, members)
       .then((activities) => activities && setCampaignActivities(activities))
     ;
-  }, [client, member]);
+  }, [client, members]);
 
-  if (!member) {
+  if (!members.length) {
     return (<></>);
   }
 

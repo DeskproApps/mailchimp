@@ -2,7 +2,7 @@
   "name": "@deskpro/mailchimp",
   "title": "Mailchimp",
   "description": "Link Deskpro user profiles to Mailchimp contacts so agents can see which audiences and campaigns users are subscribed to",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "scope": "agent",
   "isSingleInstall": true,
   "targets": [{
@@ -28,8 +28,8 @@
   "proxy": {
     "whitelist": [{
       "url": "https://(.*).api.mailchimp.com/.*",
-      "methods": ["GET", "POST", "PUT"],
-      "timeout": 20
+      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "timeout": 30
     }]
   }
 }

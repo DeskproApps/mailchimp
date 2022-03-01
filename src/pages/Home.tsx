@@ -7,10 +7,11 @@ import {Contact} from "../components/Contact/Contact";
 import {HorizontalDivider} from "../components/Divider/Divider";
 import {Audiences} from "../components/Audiences/Audiences";
 import {Campaigns} from "../components/Campaigns/Campaigns";
+import {UserName} from "../types";
 
 interface HomeProps {
     userEmail: string;
-    userName: string;
+    userName: UserName;
     settings: Settings;
     setNextPage: SetNextPage;
 }
@@ -22,6 +23,7 @@ export const Home: FC<HomeProps> = ({ setNextPage, userEmail, userName, settings
 
     useInitialisedDeskproAppClient((client) => {
         client.setTitle("Mailchimp");
+        client.deregisterElement("view_menu");
     }, []);
 
     const loadMember = async () => {
@@ -63,12 +65,9 @@ export const Home: FC<HomeProps> = ({ setNextPage, userEmail, userName, settings
                 />
             </Section>
             <HorizontalDivider />
-            {/* todo: check that all members have the same ID, as some old/stale member IDs may be present in this list */}
-            {(memberLists && memberLists[0]) && (
-                <Section>
-                    <Campaigns member={memberLists[0]} settings={settings} />
-                </Section>
-            )}
+            <Section>
+                <Campaigns members={memberLists ?? []} settings={settings} />
+            </Section>
         </div>
     );
 };

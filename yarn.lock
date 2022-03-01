@@ -251,10 +251,10 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@deskpro/app-sdk@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@deskpro/app-sdk/-/app-sdk-0.1.10.tgz#da608e6ceea9c4dba624d3eca124a520806c5577"
-  integrity sha512-4iO9gY/MgERp+Ot5uQvYElo3bw0b07WTkXkukxQ6zyDxsw6nBmXyjdhss1UlKl6+PbztKL25axczM7IFt4D/ew==
+"@deskpro/app-sdk@^0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@deskpro/app-sdk/-/app-sdk-0.1.16.tgz#f04c469a0a1b2e2f5b177e80fe1f9c9e078eb754"
+  integrity sha512-vz2bocgrKBuIRWwXCzq3zpfICB9fBF6SGw34m3M3j5h2o+VDtxfmH9sInT3E+GIRpAdtAiq/CSlhicwGpy4qMg==
   dependencies:
     "@deskpro/deskpro-ui" "0.1.14"
     handlebars "4.7.7"
