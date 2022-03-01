@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useMemo, useState } from "react";
+import React, {ChangeEvent, FC, Fragment, useMemo, useState} from "react";
 import { Audience, AudienceList, Member } from "../../api/types";
 import "./Audiences.css";
 import { SectionHeading } from "../SectionHeading/SectionHeading";
@@ -143,6 +143,10 @@ export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName,
                 const subscribed = isSubscribed(memberLists, audience);
                 const member = findMember(memberLists, audience);
 
+                if (member?.status === "transactional") {
+                    return (<Fragment key={idx} />);
+                }
+
                 return (
                     <Stack gap={8} align="center" className="audience-checkbox-row" key={idx}>
                         <Stack align="center" gap={8}>
@@ -169,7 +173,7 @@ export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName,
                                             member
                                         )}
                                         size={14}
-                                        disabled={audienceLoading !== null || unsubscribeAllLoading || ["cleaned", "pending", "transactional"].includes(member?.status ?? "")}
+                                        disabled={audienceLoading !== null || unsubscribeAllLoading || ["cleaned", "pending"].includes(member?.status ?? "")}
                                     />
                                   </span>
                                 </Tooltip>
