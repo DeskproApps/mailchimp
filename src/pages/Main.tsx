@@ -1,4 +1,4 @@
-import React, {ReactNode, useState} from "react";
+import React, {FC, ReactNode, useState} from "react";
 import {Page, Settings} from "./types";
 import {__, match} from "ts-pattern";
 import {Home} from "./Home";
@@ -12,7 +12,7 @@ import {
 import {UserContextData, UserName} from "../types";
 import {archiveMember} from "../api/api";
 
-export const Main = () => {
+export const Main: FC = () => {
   const { client } = useDeskproAppClient();
 
   const [page, setPage] = useState<Page>("home");
@@ -80,21 +80,26 @@ export const Main = () => {
     setPage(page);
   };
 
-  return match<Page, ReactNode>(page)
-      .with("home", () => <Home
-          setNextPage={setPageNext}
-          userEmail={userEmail}
-          userName={userName}
-          settings={settings}
-          {...pageProps}
-      />)
-      .with("view", () => <View
-          setNextPage={setPageNext}
-          userEmail={userEmail}
-          userName={userName}
-          settings={settings}
-          {...pageProps}
-      />)
-      .exhaustive()
-  ;
+  return (
+      <>
+        {
+          match<Page, ReactNode>(page)
+            .with("home", () => <Home
+                setNextPage={setPageNext}
+                userEmail={userEmail}
+                userName={userName}
+                settings={settings}
+                {...pageProps}
+            />)
+            .with("view", () => <View
+                setNextPage={setPageNext}
+                userEmail={userEmail}
+                userName={userName}
+                settings={settings}
+                {...pageProps}
+            />)
+            .exhaustive()
+        }
+      </>
+  );
 };
