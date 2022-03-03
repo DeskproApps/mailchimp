@@ -1,10 +1,12 @@
 .audience-checkbox-row {
     margin-bottom: 8px !important;
+    margin-top: -3px !important;
 }
 
 .audience-checkbox-row .audience-label {
     font-size: 12px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .audience-controls {

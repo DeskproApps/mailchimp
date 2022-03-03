@@ -6,11 +6,11 @@ import { ExternalLink } from "../ExternalLink/ExternalLink";
 import { SectionBlock } from "../SectionBlock/SectionBlock";
 import {
     Button,
-    Checkbox,
+    Checkbox, HorizontalDivider,
     Spinner,
     Stack,
     Tooltip,
-    useDeskproAppClient,
+    useDeskproAppClient, useDeskproAppTheme,
     useInitialisedDeskproAppClient
 } from "@deskpro/app-sdk";
 import { getAudiences, subscribeNewAudienceMember, updateAudienceSubscription } from "../../api/api";
@@ -31,6 +31,7 @@ interface AudiencesProps {
 
 export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName, userEmail, reloadMembers, setNextPage }: AudiencesProps) => {
     const {client} = useDeskproAppClient();
+    const {theme} = useDeskproAppTheme();
     const [audiences, setAudiences] = useState<AudienceList|undefined>(undefined);
     const [audienceLoading, setAudienceLoading] = useState<string|null>(null);
     const [errors, setErrors] = useState<string[]>([]);
@@ -148,51 +149,55 @@ export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName,
                 }
 
                 return (
-                    <Stack gap={8} align="center" className="audience-checkbox-row" key={idx}>
-                        <Stack align="center" gap={8}>
-                            {audienceLoading === audience.id ? <FontAwesomeIcon icon={faSpinner} spin /> : (
-                                <Tooltip content={
-                                    <div style={{ padding: "2px 4px", maxWidth: "200px" }}>
-                                        {subscribed ? (
-                                            "Unsubscribe from audience"
-                                        ) : (
-                                            audience.hasMarketingPreferences
-                                                ? "Subscribe to audience & opt-in to all marketing preferences"
-                                                : "Subscribe to audience"
-                                        )}
-                                    </div>
-                                } placement="bottom" styleType="extraDark">
-                                  <span>
-                                    <Checkbox
-                                        checked={subscribed}
-                                        value={audience.id}
-                                        id={audience.id}
-                                        onChange={(e: ChangeEvent<HTMLInputElement>) => toggleSubscription(
-                                            e.target.checked,
-                                            audience,
-                                            member
-                                        )}
-                                        size={14}
-                                        disabled={audienceLoading !== null || unsubscribeAllLoading || ["cleaned", "pending"].includes(member?.status ?? "")}
-                                    />
-                                  </span>
-                                </Tooltip>
-                            )}
-                            <span
-                                onClick={() => setNextPage("view", {
-                                    audience: audience,
-                                    member: findMember(memberLists, audience),
-                                    userName,
-                                    userEmail,
-                                    settings,
-                                })}
-                                className="audience-label"
-                            >
+                    <div key={idx} className="audience-checkbox-row">
+                        <Stack gap={8} align="center">
+                            <Stack align="center" gap={8}>
+                                {audienceLoading === audience.id ? <FontAwesomeIcon icon={faSpinner} spin /> : (
+                                    <Tooltip content={
+                                        <div style={{ padding: "2px 4px", maxWidth: "200px" }}>
+                                            {subscribed ? (
+                                                "Unsubscribe from audience"
+                                            ) : (
+                                                audience.hasMarketingPreferences
+                                                    ? "Subscribe to audience & opt-in to all marketing preferences"
+                                                    : "Subscribe to audience"
+                                            )}
+                                        </div>
+                                    } placement="bottom" styleType="extraDark">
+                                      <span>
+                                        <Checkbox
+                                            checked={subscribed}
+                                            value={audience.id}
+                                            id={audience.id}
+                                            onChange={(e: ChangeEvent<HTMLInputElement>) => toggleSubscription(
+                                                e.target.checked,
+                                                audience,
+                                                member
+                                            )}
+                                            size={14}
+                                            disabled={audienceLoading !== null || unsubscribeAllLoading || ["cleaned", "pending"].includes(member?.status ?? "")}
+                                        />
+                                      </span>
+                                    </Tooltip>
+                                )}
+                                <span
+                                    onClick={() => setNextPage("view", {
+                                        audience: audience,
+                                        member: findMember(memberLists, audience),
+                                        userName,
+                                        userEmail,
+                                        settings,
+                                    })}
+                                    style={{ color: theme.colors.cyan100 }}
+                                    className="audience-label"
+                                >
                                 {audience.name}
                             </span>
+                            </Stack>
+                            <ExternalLink href={`https://${settings.domain}.admin.mailchimp.com/lists/members?id=${audience.webId}#p:1-s:25-sa:last_update_time-so:false`}/>
                         </Stack>
-                        <ExternalLink href={`https://${settings.domain}.admin.mailchimp.com/lists/members?id=${audience.webId}#p:1-s:25-sa:last_update_time-so:false`}/>
-                    </Stack>
+                        <HorizontalDivider />
+                    </div>
                 );
             })}
             {numSubscribedMembers > 0 && (

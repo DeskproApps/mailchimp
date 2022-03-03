@@ -45,6 +45,7 @@ export interface CampaignActivity {
   name: string;
   actions: CampaignActivityAction[];
   date: Date|null;
+  uniqueKey: string;
 }
 
 export type CampaignActivities = CampaignActivity[];

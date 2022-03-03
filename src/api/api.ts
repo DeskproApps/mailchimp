@@ -139,8 +139,27 @@ export const updateAudienceSubscription = async (client: IDeskproClient, audienc
 
     const data = await res.json();
 
-    if (data?.errors) {
+    if ((data?.errors ?? []).length) {
       return (data?.errors ?? []).map((e: { error: string }) => e.error);
+    }
+
+    if (status === "subscribed" && data?.updated_members[0]?.id) {
+      const memberId: string = data.updated_members[0].id;
+
+      const memberRes = await dpFetch(`${MAILCHIMP_API_BASE_URL}/lists/${audienceId}/members/${memberId}`);
+
+      if (memberRes.status !== 200) {
+        return false;
+      }
+
+      const memberData = await memberRes.json();
+      const marketingPermissionIds = (memberData?.marketing_permissions ?? [])
+          .map((p: { marketing_permission_id: string; }) => p.marketing_permission_id)
+      ;
+
+      if (marketingPermissionIds.length) {
+        await enableAllMarketingPermissions(dpFetch, audienceId, memberId, marketingPermissionIds);
+      }
     }
 
     return true;
@@ -231,6 +250,7 @@ export const getCampaignActivity = async (client: IDeskproClient, members: Membe
           name: campaign.settings.title ?? campaign.settings.subject_line,
           actions,
           date,
+          uniqueKey: (date?.toISOString() ?? "") + campaign.id,
         });
       }
 
@@ -241,7 +261,7 @@ export const getCampaignActivity = async (client: IDeskproClient, members: Membe
         .forEach((as) => as.forEach((a) => allActivities.push(a)))
     ;
 
-    return orderBy(uniqBy(allActivities, "id"), (item) => item.date, ['desc']);
+    return orderBy(uniqBy(allActivities, 'uniqueKey'), (item) => item.date, ['desc']);
   } catch (e) {
     console.error(`Failed to fetch campaigns from Mailchimp: ${e}`);
     return null;
