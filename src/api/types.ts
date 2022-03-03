@@ -7,6 +7,12 @@ export interface Member {
   fullName: string;
   rating: number;
   status: MemberStatus;
+  listId: string;
+  marketingPermissions: {
+    id: string;
+    text: string;
+    enabled: boolean;
+  }[];
 }
 
 export interface Audience {
@@ -39,6 +45,7 @@ export interface CampaignActivity {
   name: string;
   actions: CampaignActivityAction[];
   date: Date|null;
+  uniqueKey: string;
 }
 
 export type CampaignActivities = CampaignActivity[];

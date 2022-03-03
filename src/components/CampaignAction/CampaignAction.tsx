@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, Fragment } from "react";
 import { Icon, Pill, Stack, useDeskproAppTheme } from "@deskpro/app-sdk";
 import { CampaignActivity } from "../../api/types";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -27,15 +27,14 @@ export const CampaignAction: FC<CampaignActionProps> = ({ activity }: CampaignAc
   return (
     <Stack gap={2} align="center">
       {activity.actions.map((action, idx) => (
-        <>
+        <Fragment key={idx}>
           {idx !== 0 && <Icon icon={faAngleLeft} className="external-link-mailchimp-icon" themeColor="grey40" />}
           <Pill
-            key={idx}
             textColor={theme.colors.white}
             backgroundColor={colorMap[action]}
             label={action}
           />
-        </>
+        </Fragment>
       ))}
     </Stack>
   );

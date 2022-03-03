@@ -1,77 +1,105 @@
-import React, { useEffect, useState } from "react";
+import React, {FC, ReactNode, useState} from "react";
+import {Page, Settings} from "./types";
+import {__, match} from "ts-pattern";
+import {Home} from "./Home";
+import {View} from "./View";
 import {
   Context,
-  Section,
-  LoadingSpinner,
   useDeskproAppClient,
-  useDeskproAppEvents
+  useDeskproAppEvents,
+  useInitialisedDeskproAppClient
 } from "@deskpro/app-sdk";
-import { Contact } from "../components/Contact/Contact";
-import { HorizontalDivider } from "../components/Divider/Divider";
-import { Audiences } from "../components/Audiences/Audiences";
-import { Campaigns } from "../components/Campaigns/Campaigns";
-import { Member } from "../api/types";
-import { getMember } from "../api/api";
-import { UserContextData } from "../types";
+import {UserContextData, UserName} from "../types";
+import {archiveMember} from "../api/api";
 
-export const Main = () => {
-  const [userEmail, setUserEmail] = useState<string|null>(null);
-  const [userName, setUserName] = useState<string|null>(null);
-  const [member, setMember] = useState<Member|null|undefined>(undefined);
-  const [settings, setSettings] = useState<{ domain?: string; }>({});
-
+export const Main: FC = () => {
   const { client } = useDeskproAppClient();
+
+  const [page, setPage] = useState<Page>("home");
+  const [pageProps, setPageProps] = useState<any>(undefined);
+
+  const [userEmail, setUserEmail] = useState<string|null>(null);
+  const [userName, setUserName] = useState<UserName|null>(null);
+  const [settings, setSettings] = useState<Settings>({});
+
+  useInitialisedDeskproAppClient((client) => {
+    client.registerElement("refresh", { type: "refresh_button" });
+  });
 
   useDeskproAppEvents({
     onReady: (c: Context) => {
       const data = c.data as UserContextData;
 
-      setUserEmail(data.user.primaryEmail);
-      setUserName(data.user.name);
-      setSettings(c.settings);
+      if (data?.user?.primaryEmail) {
+        setUserEmail(data.user.primaryEmail);
+      }
+
+      if (data?.user?.name) {
+        setUserName({ first: data.user.firstName, last: data.user.lastName });
+      }
+
+      if (c?.settings) {
+        setSettings(c.settings);
+      }
     },
     onChange: (c: Context) => {
       const data = c.data as UserContextData;
 
-      setUserEmail(data.user.primaryEmail);
-      setUserName(data.user.name);
-      setSettings(c.settings);
-    },
-  });
+      if (data?.user?.primaryEmail) {
+        setUserEmail(data.user.primaryEmail);
+      }
 
-  const loadMember = () => {
-    if (client) {
-      userEmail && getMember(client, userEmail).then(setMember);
-    }
+      if (data?.user?.name) {
+        setUserName({ first: data.user.firstName, last: data.user.lastName });
+      }
+
+      if (c?.settings) {
+        setSettings(c.settings);
+      }
+    },
+    onElementEvent: (id: string, type: string, payload: any) => match([id, type, payload])
+        .with(["view_menu", __, { action: "archive_mailchimp_user", audience: __, member: __ }], () => {
+          if (!client || !payload) {
+            return;
+          }
+
+          archiveMember(client, payload.audience.id, payload.member.id)
+              .then(() => setPageNext("view", {
+                member: null,
+                audience: payload.audience,
+                isArchived: true,
+              }))
+          ;
+        })
+        .run()
+    ,
+  }, [client]);
+
+  const setPageNext = (page: Page, props: any) => {
+    setPageProps(props);
+    setPage(page);
   };
 
-  useEffect(() => {
-    loadMember();
-  }, [userEmail, client]);
-
-  if (!userEmail) {
-    return (<></>);
-  }
-
-  if (member === undefined) {
-    return (<LoadingSpinner />);
-  }
-
   return (
-    <div className="page-main">
-      <Section>
-        <Contact member={member} userName={userName} userEmail={userEmail} settings={settings} />
-      </Section>
-      <HorizontalDivider />
-      <Section>
-        <Audiences member={member} userName={userName} userEmail={userEmail} settings={settings} reloadMember={loadMember} />
-      </Section>
-      <HorizontalDivider />
-      {member && (
-        <Section>
-          <Campaigns member={member} settings={settings} />
-        </Section>
-      )}
-    </div>
+      <>
+        {
+          match<Page, ReactNode>(page)
+            .with("home", () => <Home
+                setNextPage={setPageNext}
+                userEmail={userEmail}
+                userName={userName}
+                settings={settings}
+                {...pageProps}
+            />)
+            .with("view", () => <View
+                setNextPage={setPageNext}
+                userEmail={userEmail}
+                userName={userName}
+                settings={settings}
+                {...pageProps}
+            />)
+            .exhaustive()
+        }
+      </>
   );
 };
