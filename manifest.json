@@ -2,7 +2,7 @@
   "name": "@deskpro/mailchimp",
   "title": "Mailchimp",
   "description": "Link Deskpro user profiles to Mailchimp contacts so agents can see which audiences and campaigns users are subscribed to",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "scope": "agent",
   "isSingleInstall": true,
   "targets": [{
