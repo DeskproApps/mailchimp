@@ -9,7 +9,7 @@
     "build:package": "yarn build && yarn package"
   },
   "dependencies": {
-    "@deskpro/app-sdk": "0.3.4",
+    "@deskpro/app-sdk": "^1.0.0",
     "formik": "^2.2.9",
     "iframe-resizer": "4.3.2",
     "lodash": "^4.17.21",

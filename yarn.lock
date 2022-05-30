@@ -251,12 +251,12 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@deskpro/app-sdk@0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@deskpro/app-sdk/-/app-sdk-0.3.4.tgz#52cd775926790348c9f935d6a1966b9f60ff0ac6"
-  integrity sha512-YGxv0P0Ftsopod1Gr/XQHetqNa+voUBlXM+iludiS8YnjmvhDtahyFdad2dVPTtAD9kXwHZyvtez0ioQOi7xJg==
+"@deskpro/app-sdk@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@deskpro/app-sdk/-/app-sdk-1.0.0.tgz#e97de869a9fbb56bf53acfdb7edf5198225bb8d7"
+  integrity sha512-b5cVMcrxK4r3s30KxB4APSVgBcxYphY2c3VSGY93X1Sm2XlAsC19HBgtAA4BlWTGcUPHm5M3kXKYBnNHcEFwnA==
   dependencies:
-    "@deskpro/deskpro-ui" "2.3.1"
+    "@deskpro/deskpro-ui" "^2.3.5"
     "@fortawesome/fontawesome-svg-core" "^6.1.0"
     "@fortawesome/free-brands-svg-icons" "^6.1.0"
     "@fortawesome/free-regular-svg-icons" "^6.1.0"
@@ -273,10 +273,10 @@
     styled-components "5.3.3"
     tslib "2.3.1"
 
-"@deskpro/deskpro-ui@2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@deskpro/deskpro-ui/-/deskpro-ui-2.3.1.tgz#58125ec436d63072aae0b2231ac53e662e17edb8"
-  integrity sha512-abGYXtetZ9Nn5KZrxdCoNjNArq/9FqYnVwg656cU285dJUtsOtZUhRaRw6U26FZzxrsWA8sF4Qgy9PX3qyKvmQ==
+"@deskpro/deskpro-ui@^2.3.5":
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@deskpro/deskpro-ui/-/deskpro-ui-2.3.5.tgz#32442b79052324ada513d9ca90153a473ced38df"
+  integrity sha512-REjp5uDSUGlNkSuB/HWO2fE6k4rGum4Ymc0C3BA6UQw8RF5Ld1KEEcEDZSGMtN4O7Qvj/WZztN5Acwo1H0Nwfg==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.1.0"
     "@fortawesome/free-solid-svg-icons" "^6.1.0"
