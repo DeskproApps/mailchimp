@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from "react";
-import { Icon, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { AnyIcon, Icon, useDeskproAppTheme } from "@deskpro/app-sdk";
 import { faMailchimp } from "@fortawesome/free-brands-svg-icons";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import "./ExternalLink.css";
@@ -15,8 +15,8 @@ export const ExternalLink: FC<ExternalLinkProps> = ({ href, title, style }: Exte
 
   return (
     <a className="external-link" href={href} title={title} target="_blank" style={{ backgroundColor: theme.colors.grey10, ...(style ?? {}) }}>
-      <Icon icon={faMailchimp} className="external-link-mailchimp-icon" themeColor="grey100" />
-      <Icon icon={faExternalLinkAlt} className="external-link-link-icon" themeColor="brandPrimary" size={10} />
+      <Icon icon={faMailchimp as AnyIcon} className="external-link-mailchimp-icon" themeColor="grey100" />
+      <Icon icon={faExternalLinkAlt as AnyIcon} className="external-link-link-icon" themeColor="brandPrimary" size={10} />
     </a>
   );
 };

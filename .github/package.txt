@@ -1,0 +1,7 @@
+    "bumpManifestVer": "node ./bin/bumpManifestVer.js"
+
+pnpm i -d prettier
+
+pnpm test; pnpm tsc; pnpm build
+
+might need to comment tests 
