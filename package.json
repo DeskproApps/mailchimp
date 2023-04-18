@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@deskpro/app-sdk": "^1.0.0",
+    "@deskpro/deskpro-ui": "^6.7.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",

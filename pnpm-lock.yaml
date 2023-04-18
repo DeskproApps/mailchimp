@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@deskpro/app-sdk': ^1.0.0
+  '@deskpro/deskpro-ui': ^6.7.0
   '@fortawesome/free-brands-svg-icons': ^6.4.0
   '@fortawesome/free-solid-svg-icons': ^6.4.0
   '@fortawesome/react-fontawesome': ^0.2.0
@@ -28,6 +29,7 @@ specifiers:
 
 dependencies:
   '@deskpro/app-sdk': 1.0.0_typescript@4.5.5
+  '@deskpro/deskpro-ui': 6.7.0_react-dom@17.0.2+react@17.0.2
   '@fortawesome/free-brands-svg-icons': 6.4.0
   '@fortawesome/free-solid-svg-icons': 6.4.0
   '@fortawesome/react-fontawesome': 0.2.0_react@17.0.2
@@ -396,6 +398,42 @@ packages:
       uuid: 8.3.2
     dev: false
 
+  /@deskpro/deskpro-ui/6.7.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-Z6H01uQB7mW+uP/ECsMAHNHATn+hCv/21c3QR+U9I0vYB4KMYKXGvj3LI3/RiVWgNafVNJb3OdFRqqzy1oBhsQ==}
+    engines: {node: ^16.0.0}
+    peerDependencies:
+      '@typescript/lib-dom': npm:@types/web
+      react: ^18
+      react-dom: ^18
+      styled-components: ^5
+    dependencies:
+      '@fortawesome/fontawesome-svg-core': 6.4.0
+      '@fortawesome/free-solid-svg-icons': 6.4.0
+      '@fortawesome/react-fontawesome': 0.1.18_cd264d80646e036b39bccbdbe165556d
+      '@heroicons/react': 1.0.6_react@17.0.2
+      '@popperjs/core': 2.11.2
+      '@tippyjs/react': 4.2.6_react-dom@17.0.2+react@17.0.2
+      csstype: 3.0.11
+      d3-hierarchy: 3.1.2
+      formik: 2.2.9_react@17.0.2
+      framer-motion: 6.3.3_react-dom@17.0.2+react@17.0.2
+      lodash: 4.17.21
+      pretty-bytes: 6.0.0
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-highlight-words: 0.17.0_react@17.0.2
+      react-is: 17.0.2
+      react-popper: 2.2.5_4d48938cec404f33c7375aa6b453941c
+      simplebar: 5.3.6
+      simplebar-react: 2.3.7_react-dom@17.0.2+react@17.0.2
+      tippy.js: 6.3.7
+      ts-pattern: 4.2.2
+      tslib: 2.4.1
+      type-fest: 2.12.2
+      use-debounce: 7.0.1_react@17.0.2
+      uuid: 8.3.2
+    dev: false
+
   /@emotion/is-prop-valid/0.8.8:
     resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==}
     dependencies:
@@ -512,6 +550,14 @@ packages:
       '@fortawesome/fontawesome-common-types': 6.1.1
     dev: false
 
+  /@fortawesome/fontawesome-svg-core/6.4.0:
+    resolution: {integrity: sha512-Bertv8xOiVELz5raB2FlXDPKt+m94MQ3JgDfsVbrqNpLU9+UE2E18GKjLKw+d3XbeYPqg1pzyQKGsrzbw+pPaw==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 6.4.0
+    dev: false
+
   /@fortawesome/free-brands-svg-icons/6.4.0:
     resolution: {integrity: sha512-qvxTCo0FQ5k2N+VCXb/PZQ+QMhqRVM4OORiO6MXdG6bKolIojGU/srQ1ptvKk0JTbRgaJOfL2qMqGvBEZG7Z6g==}
     engines: {node: '>=6'}
@@ -547,6 +593,17 @@ packages:
       react: 17.0.2
     dev: false
 
+  /@fortawesome/react-fontawesome/0.1.18_cd264d80646e036b39bccbdbe165556d:
+    resolution: {integrity: sha512-RwLIB4TZw0M9gvy5u+TusAA0afbwM4JQIimNH/j3ygd6aIvYPQLqXMhC9ErY26J23rDPyDZldIfPq/HpTTJ/tQ==}
+    peerDependencies:
+      '@fortawesome/fontawesome-svg-core': ~1 || ~6
+      react: '>=16.x'
+    dependencies:
+      '@fortawesome/fontawesome-svg-core': 6.4.0
+      prop-types: 15.8.1
+      react: 17.0.2
+    dev: false
+
   /@fortawesome/react-fontawesome/0.2.0_react@17.0.2:
     resolution: {integrity: sha512-uHg75Rb/XORTtVt7OS9WoK8uM276Ufi7gCzshVWkUJbHhh3svsUUeqXerrM96Wm7fRiDzfKRwSoahhMIkGAYHw==}
     peerDependencies:
@@ -554,6 +611,14 @@ packages:
       react: '>=16.3'
     dependencies:
       prop-types: 15.8.1
+      react: 17.0.2
+    dev: false
+
+  /@heroicons/react/1.0.6_react@17.0.2:
+    resolution: {integrity: sha512-JJCXydOFWMDpCP4q13iEplA503MQO3xLoZiKum+955ZCtHINWnx26CUxVxxFQu/uLb4LW3ge15ZpzIkXKkJ8oQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
       react: 17.0.2
     dev: false
 
@@ -844,6 +909,11 @@ packages:
   /csstype/3.0.11:
     resolution: {integrity: sha512-sa6P2wJ+CAbgyy4KFssIb/JNMLxFvKF1pCYCSXS8ZMuqZnMsrxqI2E5sPyoTpxoPU/gVZMzr2zjOfg8GIZOMsw==}
 
+  /d3-hierarchy/3.1.2:
+    resolution: {integrity: sha512-FX/9frcub54beBdugHjDCdikxThEqjnR93Qt7PvQTOHxyiNCAlvMrHhclk3cD5VeAaq9fxmfRp+CnWw9rEMBuA==}
+    engines: {node: '>=12'}
+    dev: false
+
   /debug/4.3.3:
     resolution: {integrity: sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==}
     engines: {node: '>=6.0'}
@@ -1119,7 +1189,7 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       style-value-types: 5.0.0
-      tslib: 2.3.1
+      tslib: 2.4.1
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
     dev: false
@@ -1127,7 +1197,7 @@ packages:
   /framesync/6.0.1:
     resolution: {integrity: sha512-fUY88kXvGiIItgNC7wcTOl0SNRCVXMKSWW2Yzfmn7EKNc+MpCzcz9DhdHcdjbrtN3c6R4H5dTY2jiCpPdysEjA==}
     dependencies:
-      tslib: 2.3.1
+      tslib: 2.4.1
     dev: false
 
   /fs-extra/8.1.0:
@@ -1445,7 +1515,7 @@ packages:
       framesync: 6.0.1
       hey-listen: 1.0.8
       style-value-types: 5.0.0
-      tslib: 2.3.1
+      tslib: 2.4.1
     dev: false
 
   /postcss-value-parser/4.2.0:
@@ -1710,7 +1780,7 @@ packages:
     resolution: {integrity: sha512-08yq36Ikn4kx4YU6RD7jWEv27v4V+PUsOGa4n/as8Et3CuODMJQ00ENeAVXAeydX4Z2j1XHZF1K2sX4mGl18fA==}
     dependencies:
       hey-listen: 1.0.8
-      tslib: 2.3.1
+      tslib: 2.4.1
     dev: false
 
   /styled-components/5.3.3_react-dom@17.0.2+react@17.0.2:
@@ -1803,12 +1873,20 @@ packages:
     resolution: {integrity: sha512-eHqR/7A6fcw05vCOfnL6RwgGJbVi9G/YHTdYdjYmElhDdJ1SMn7pWs+6+YuxygaFwQS/g+cIDlu+UD8IVpur1A==}
     dev: false
 
+  /ts-pattern/4.2.2:
+    resolution: {integrity: sha512-qzJMo2pbkUJWusRH5o8xR+xogn6RmvViyUgwBFTtRENLse470clCGjHDf6haWGZ1AOmk8XkEohUoBW8Uut6Scg==}
+    dev: false
+
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: false
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
+    dev: false
+
+  /tslib/2.4.1:
+    resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
     dev: false
 
   /type-fest/2.12.2:
