@@ -3,7 +3,7 @@
   "title": "Mailchimp",
   "description": "Link Deskpro user profiles to Mailchimp contacts so agents can see which audiences and campaigns users are subscribed to",
   "appStoreUrl": "https://www.deskpro.com/product-embed/apps/mailchimp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "scope": "agent",
   "isSingleInstall": true,
   "serveUrl": "https://apps-cdn.deskpro-service.com/__name__/__version__",
