@@ -6,6 +6,7 @@
   "version": "1.0.2",
   "scope": "agent",
   "isSingleInstall": true,
+  "serveUrl": "https://apps-cdn.deskpro-service.com/__name__/__version__",
   "targets": [{ "target": "user_sidebar", "entrypoint": "index.html" }],
   "settings": {
     "domain": {
