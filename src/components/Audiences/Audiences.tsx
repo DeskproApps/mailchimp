@@ -152,7 +152,10 @@ export const Audiences: FC<AudiencesProps> = ({ memberLists, settings, userName,
                     <div key={idx} className="audience-checkbox-row">
                         <Stack gap={8} align="center">
                             <Stack align="center" gap={8}>
-                                {audienceLoading === audience.id ? <FontAwesomeIcon icon={faSpinner} spin /> : (
+                                {audienceLoading === audience.id ? <FontAwesomeIcon icon={faSpinner as unknown as {
+                                    prefix: "fas";
+                                    iconName: "mailchimp";
+                                    }} spin /> : (
                                     <Tooltip content={
                                         <div style={{ padding: "2px 4px", maxWidth: "200px" }}>
                                             {subscribed ? (

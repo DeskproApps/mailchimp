@@ -51,8 +51,8 @@ jobs:
       - name: Type check
         run: pnpm tsc --noemit
 
-      # - name: Run tests
-      #   run: pnpm test:coverage
+      - name: Run tests
+        run: pnpm test:coverage
 
       - name: Get labels from pull request
         id: labels
