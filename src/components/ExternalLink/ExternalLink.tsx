@@ -14,7 +14,7 @@ export const ExternalLink: FC<ExternalLinkProps> = ({ href, title, style }: Exte
   const { theme } = useDeskproAppTheme();
 
   return (
-    <a className="external-link" href={href} title={title} target="_blank" style={{ backgroundColor: theme.colors.grey10, ...(style ?? {}) }}>
+    <a className="external-link" href={href} title={title} target="_blank" style={{ backgroundColor: theme.colors.grey10, ...(style ?? {}) }} rel="noopener noreferrer">
       <Icon icon={faMailchimp as AnyIcon} className="external-link-mailchimp-icon" themeColor="grey100" />
       <Icon icon={faExternalLinkAlt as AnyIcon} className="external-link-link-icon" themeColor="brandPrimary" size={10} />
     </a>
