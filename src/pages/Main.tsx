@@ -16,6 +16,7 @@ export const Main: FC = () => {
   const { client } = useDeskproAppClient();
 
   const [page, setPage] = useState<Page>("home");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pageProps, setPageProps] = useState<any>(undefined);
 
   const [userEmail, setUserEmail] = useState<string|null>(null);
@@ -57,6 +58,7 @@ export const Main: FC = () => {
         setSettings(c.settings);
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onElementEvent: (id: string, type: string, payload: any) => match([id, type, payload])
         .with(["view_menu", __, { action: "archive_mailchimp_user", audience: __, member: __ }], () => {
           if (!client || !payload) {
@@ -75,6 +77,7 @@ export const Main: FC = () => {
     ,
   }, [client]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const setPageNext = (page: Page, props: any) => {
     setPageProps(props);
     setPage(page);

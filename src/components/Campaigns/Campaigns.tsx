@@ -3,12 +3,8 @@ import { SectionBlock } from "../SectionBlock/SectionBlock";
 import { SectionHeading } from "../SectionHeading/SectionHeading";
 import { ExternalLink } from "../ExternalLink/ExternalLink";
 import { Property } from "../Property/Property";
-import {
-  Stack,
-  H1,
-  useDeskproAppClient,
-  Spinner
-} from "@deskpro/app-sdk";
+import { Stack, H1, Spinner } from "@deskpro/deskpro-ui";
+import { useDeskproAppClient } from "@deskpro/app-sdk";
 import { HorizontalDivider, VerticalDivider } from "../Divider/Divider";
 import "./Campaigns.css";
 import { CampaignActivities, Member } from "../../api/types";

@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from "react";
-import { Stack, StackProps } from "@deskpro/app-sdk";
+import { Stack, StackProps } from "@deskpro/deskpro-ui";
 
 export type SectionBlockProps = StackProps & {
   style?: CSSProperties;

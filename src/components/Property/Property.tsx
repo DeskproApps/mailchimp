@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from "react";
-import { H2, Stack, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { H2, Stack } from "@deskpro/deskpro-ui";
+import { useDeskproAppTheme } from "@deskpro/app-sdk";
 import "./Property.css";
 
 export interface PropertyProps {

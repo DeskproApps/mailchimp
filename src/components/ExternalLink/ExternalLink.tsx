@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC } from "react";
-import { AnyIcon, Icon, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { AnyIcon, Icon } from "@deskpro/deskpro-ui";
+import { useDeskproAppTheme } from "@deskpro/app-sdk";
 import { faMailchimp } from "@fortawesome/free-brands-svg-icons";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import "./ExternalLink.css";

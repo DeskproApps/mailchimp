@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Pill, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { Pill } from "@deskpro/deskpro-ui";
+import { useDeskproAppTheme } from "@deskpro/app-sdk";
 import { MemberStatus as MemberStatusType } from "../../api/types";
 
 export interface MemberStatusProps {

@@ -1,5 +1,6 @@
 import React, { FC, Fragment } from "react";
-import { AnyIcon, Icon, Pill, Stack, useDeskproAppTheme } from "@deskpro/app-sdk";
+import { AnyIcon, Icon, Pill, Stack } from "@deskpro/deskpro-ui";
+import { useDeskproAppTheme } from "@deskpro/app-sdk";
 import { CampaignActivity } from "../../api/types";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 

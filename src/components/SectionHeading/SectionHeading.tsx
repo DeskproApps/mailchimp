@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { H0 } from "@deskpro/app-sdk";
+import { H0 } from "@deskpro/deskpro-ui";
 
 export interface SectionHeadingProps {
   text: string;

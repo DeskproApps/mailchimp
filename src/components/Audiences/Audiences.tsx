@@ -4,13 +4,11 @@ import "./Audiences.css";
 import { SectionHeading } from "../SectionHeading/SectionHeading";
 import { ExternalLink } from "../ExternalLink/ExternalLink";
 import { SectionBlock } from "../SectionBlock/SectionBlock";
+import { Button, Checkbox, Spinner, Stack, Tooltip } from "@deskpro/deskpro-ui";
 import {
-    Button,
-    Checkbox, HorizontalDivider,
-    Spinner,
-    Stack,
-    Tooltip,
-    useDeskproAppClient, useDeskproAppTheme,
+    HorizontalDivider,
+    useDeskproAppClient,
+    useDeskproAppTheme,
     useInitialisedDeskproAppClient
 } from "@deskpro/app-sdk";
 import { getAudiences, subscribeNewAudienceMember, updateAudienceSubscription } from "../../api/api";

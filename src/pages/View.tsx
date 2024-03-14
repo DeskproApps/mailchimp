@@ -1,12 +1,9 @@
 import React, {ChangeEvent, FC, useState} from "react";
 import {SetNextPage, Settings} from "./types";
+import { Button, Stack, Checkbox, Label } from "@deskpro/deskpro-ui";
 import {
-    Button,
-    Stack,
     Section,
     useInitialisedDeskproAppClient,
-    Checkbox,
-    Label,
     useDeskproAppClient, useDeskproAppTheme
 } from "@deskpro/app-sdk";
 import {SectionBlock} from "../components/SectionBlock/SectionBlock";

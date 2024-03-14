@@ -34,6 +34,7 @@ export const Home: FC<HomeProps> = ({ setNextPage, userEmail, userName, settings
 
     useEffect(() => {
         loadMember();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userEmail, client]);
 
     if (!userName) {

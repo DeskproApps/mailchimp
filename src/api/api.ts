@@ -78,6 +78,7 @@ export const getMemberLists = async (client: IDeskproClient, email: string): Pro
       return null;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (data.exact_matches.members ?? []).map((m: any) => ({
       id: m.id,
       webId: m.web_id,
@@ -86,6 +87,7 @@ export const getMemberLists = async (client: IDeskproClient, email: string): Pro
       rating: m.member_rating,
       status: m.status,
       listId: m.list_id,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       marketingPermissions: (m.marketing_permissions ?? []).map((p: any) => ({
         id: p.marketing_permission_id,
         text: p.text,
@@ -93,6 +95,7 @@ export const getMemberLists = async (client: IDeskproClient, email: string): Pro
       })),
     } as Member));
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(`Failed to fetch member lists from Mailchimp: ${e}`, e);
     return null;
   }
@@ -117,6 +120,7 @@ export const getAudiences = async (client: IDeskproClient, email?: string): Prom
       hasMarketingPreferences: !!list.marketing_permissions,
     }));
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(`Failed to fetch audiences from Mailchimp: ${e}`);
     return [];
   }
@@ -164,6 +168,7 @@ export const updateAudienceSubscription = async (client: IDeskproClient, audienc
 
     return true;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(`Failed to update audience subscription status in Mailchimp: ${e}`);
   }
 
@@ -212,6 +217,7 @@ export const subscribeNewAudienceMember = async (client: IDeskproClient, audienc
 
     return true;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(`Failed to subscribe new member: ${e}`);
     return false;
   }
@@ -263,6 +269,7 @@ export const getCampaignActivity = async (client: IDeskproClient, members: Membe
 
     return orderBy(uniqBy(allActivities, 'uniqueKey'), (item) => item.date, ['desc']);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(`Failed to fetch campaigns from Mailchimp: ${e}`);
     return null;
   }
