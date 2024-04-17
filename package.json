@@ -11,7 +11,7 @@
     "lint": "eslint --max-warnings 0 --ext ts,tsx ./src"
   },
   "dependencies": {
-    "@deskpro/app-sdk": "^2.1.13",
+    "@deskpro/app-sdk": "^2.1.14",
     "@deskpro/deskpro-ui": "^7.18.4",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
