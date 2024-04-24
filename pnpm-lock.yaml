@@ -23,6 +23,9 @@ dependencies:
   formik:
     specifier: ^2.2.9
     version: 2.2.9(react@17.0.2)
+  iframe-resizer:
+    specifier: ^4.3.11
+    version: 4.3.11
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -1912,6 +1915,11 @@ packages:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
       react-is: 16.13.1
+    dev: false
+
+  /iframe-resizer@4.3.11:
+    resolution: {integrity: sha512-5QtnsmfH11GDsuC7Gxd/eNzojudX3346Gb0E+Ku8ln8AtfSq+cWCZtnhCrthrtE7f1CI2/kwHkZ9G4sFYzHP7A==}
+    engines: {node: '>=0.8.0'}
     dev: false
 
   /ignore@4.0.6:

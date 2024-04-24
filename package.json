@@ -17,6 +17,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "formik": "^2.2.9",
+    "iframe-resizer": "^4.3.11",
     "lodash": "^4.17.21",
     "polished": "^4.1.1",
     "react": "17.0.2",
