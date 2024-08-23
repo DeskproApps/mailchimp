@@ -5,7 +5,7 @@
     "start": "vite",
     "serve": "vite preview",
     "build": "rimraf ./dist/* && tsc && vite build",
-    "build:package": "yarn build && yarn package",
+    "build:package": "pnpm build && pnpm package",
     "package": "rimraf ./build/* && node ./bin/package.js",
     "bumpManifestVer": "node ./bin/bumpManifestVer.js",
     "lint": "eslint --max-warnings 0 --ext ts,tsx ./src"
