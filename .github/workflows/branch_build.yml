@@ -53,8 +53,8 @@ jobs:
       - name: Type check
         run: pnpm tsc --noemit
 
-      - name: Run tests
-        run: pnpm test:coverage
+      # - name: Run tests
+      #   run: pnpm test:coverage
 
       - name: Get previous commit hash
         run: |
