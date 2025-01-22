@@ -139,7 +139,7 @@ jobs:
 
       - name: Create release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -150,20 +150,8 @@ jobs:
             ./dist/${{ steps.create_package_filename.outputs.packageFilename }}.zip
             ./dist/manifest.json
 
-      - name: Register release with apps registry
-        id: register_with_apps_registry
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "https://apps.deskpro-service.com/register"
-          method: "POST"
-          customHeaders: '{"Content-Type": "application/json", "x-api-key": "${{ secrets.APP_REGISTRY_KEY }}"}'
-          data: '{"repositoryUrl": "${{ github.server_url }}/${{ github.repository }}", "type": "github"}'
+  release:
+    uses: DeskproApps/app-template-vite/.github/workflows/subworkflow-release.yml@master
+    secrets: inherit
+    needs: [deskpro_app_test_and_build]
 
-      - name: Trigger release
-        id: trigger_release
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "https://apps.deskpro-service.com/release"
-          method: "POST"
-          customHeaders: '{"Content-Type": "application/json", "x-api-key": "${{ secrets.APP_REGISTRY_KEY }}"}'
-          data: '{"repositoryUrl": "${{ github.server_url }}/${{ github.repository }}"}'
