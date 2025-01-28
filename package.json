@@ -37,7 +37,7 @@
     "eslint": "8.4.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-react-hooks": "4.3.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.4.2",
     "rollup-plugin-copy": "3.4.0",
     "slugify": "^1.6.6",
     "typescript": "5.7.2",
