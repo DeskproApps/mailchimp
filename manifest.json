@@ -10,25 +10,66 @@
   "targets": [{ "target": "user_sidebar", "entrypoint": "index.html" }],
   "settings": {
     "use_deskpro_saas": {
-      "title": "Use Deskpro SaaS",
+      "title": "One-Click Installation",
       "type": "boolean",
       "isRequired": false,
       "isBackendOnly": false,
-      "order": 5
+      "default": true,
+      "order": 1
+    },
+    "use_api_key": {
+      "title": "Use API Key",
+      "type": "boolean",
+      "isRequired": false,
+      "isBackendOnly": false,
+      "default": false,
+      "condition": "settings.use_deskpro_saas != true",
+      "order": 2
     },
     "domain": {
       "title": "Domain",
       "description": "Your Mailchimp API subdomain, e.g. \"us20\"",
       "type": "string",
       "isRequired": true,
-      "isBackendOnly": false
+      "isBackendOnly": false,
+      "order": 3
     },
     "api_key": {
       "title": "API Key",
       "description": "Your Mailchimp API key",
       "type": "string",
       "isRequired": true,
-      "isBackendOnly": true
+      "isBackendOnly": true,
+      "condition": "settings.use_deskpro_saas != true",
+      "order": 4
+    },
+    "client_id": {
+      "title": "Client ID",
+      "type": "string",
+      "isRequired": false,
+      "isBackendOnly": false,
+      "condition": "settings.use_deskpro_saas != true && settings.use_access_token != true",
+      "order": 5
+    },
+    "client_secret": {
+      "title": "Client Secret",
+      "type": "string",
+      "isRequired": false,
+      "isBackendOnly": true,
+      "condition": "settings.use_deskpro_saas != true && settings.use_access_token != true",
+      "order": 6
+    },
+    "callback_url": {
+      "title": "Callback URL",
+      "type": "app_embedded",
+      "options": {
+        "entrypoint": "#/admin/callback",
+        "height": "100px"
+      },
+      "isRequired": false,
+      "isBackendOnly": true,
+      "condition": "settings.use_deskpro_saas != true && settings.use_access_token != true",
+      "order": 7
     }
   },
   "proxy": {
