@@ -40,7 +40,7 @@ export function AdminCallback() {
     return (
         <>
             <CopyToClipboardInput value={callbackURL || ''} />
-            <Description>The callback URL will be required during Wrike setup</Description>
+            <Description>The callback URL will be required during Mailchimp setup</Description>
         </>
     );
 };
