@@ -30,7 +30,7 @@
       "title": "Domain",
       "description": "Your Mailchimp API subdomain, e.g. \"us20\"",
       "type": "string",
-      "isRequired": true,
+      "isRequired": false,
       "isBackendOnly": false,
       "order": 3
     },
@@ -38,7 +38,7 @@
       "title": "API Key",
       "description": "Your Mailchimp API key",
       "type": "string",
-      "isRequired": true,
+      "isRequired": false,
       "isBackendOnly": true,
       "condition": "settings.use_deskpro_saas != true",
       "order": 4
