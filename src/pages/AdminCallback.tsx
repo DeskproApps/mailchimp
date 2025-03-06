@@ -14,11 +14,12 @@ export function AdminCallback() {
 
     useInitialisedDeskproAppClient(client => {
         client.startOauth2Local(
-            ({ callbackUrl }) => {
+            ({ callbackUrl, state }) => {
                 setCallbackURL(callbackUrl);
 
                 return `https://login.mailchimp.com/oauth2/authorize?${createSearchParams([
                     ['client_id', 'clientID'],
+                    ['state', state],
                     ['response_type', 'code'],
                     ['redirect_uri', callbackUrl]
                 ])}`;
