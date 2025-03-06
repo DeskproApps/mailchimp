@@ -14,12 +14,11 @@ export function AdminCallback() {
 
     useInitialisedDeskproAppClient(client => {
         client.startOauth2Local(
-            ({ callbackUrl, state }) => {
+            ({ callbackUrl }) => {
                 setCallbackURL(callbackUrl);
 
-                return `https://login.wrike.com/oauth2/authorize/v4?${createSearchParams([
+                return `https://login.mailchimp.com/oauth2/authorize?${createSearchParams([
                     ['client_id', 'clientID'],
-                    ['state', state],
                     ['response_type', 'code'],
                     ['redirect_uri', callbackUrl]
                 ])}`;
