@@ -1,21 +1,26 @@
-import React, {FC, ReactNode, useState} from "react";
+import { FC, ReactNode, useState } from 'react';
 import {Page, Settings} from "./types";
 import {__, match} from "ts-pattern";
 import {Home} from "./Home";
 import {View} from "./View";
+import { LogIn } from './LogIn';
 import {
   Context,
+  LoadingSpinner,
   useDeskproAppClient,
   useDeskproAppEvents,
+  useDeskproLatestAppContext,
   useInitialisedDeskproAppClient
 } from "@deskpro/app-sdk";
 import {UserContextData, UserName} from "../types";
 import {archiveMember} from "../api/api";
+import { IS_USING_OAUTH2 } from '../constants';
 
 export const Main: FC = () => {
   const { client } = useDeskproAppClient();
+  const { context } = useDeskproLatestAppContext<unknown, Settings>();
 
-  const [page, setPage] = useState<Page>("home");
+  const [page, setPage] = useState<Page>('loading');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pageProps, setPageProps] = useState<any>(undefined);
 
@@ -26,6 +31,15 @@ export const Main: FC = () => {
   useInitialisedDeskproAppClient((client) => {
     client.registerElement("refresh", { type: "refresh_button" });
   });
+
+  useInitialisedDeskproAppClient(async client => {
+    if (!context) return;
+
+    const isUsingOAuth2 = context.settings.use_api_key !== true;
+
+    await client.setUserState(IS_USING_OAUTH2, isUsingOAuth2);
+    setPage(isUsingOAuth2 ? 'logIn' : 'home');
+  }, [context]);
 
   useDeskproAppEvents({
     onReady: (c: Context) => {
@@ -87,6 +101,10 @@ export const Main: FC = () => {
       <>
         {
           match<Page, ReactNode>(page)
+            .with('loading', () => <LoadingSpinner />)
+            .with('logIn', () => <LogIn
+              setNextPage={setPageNext}
+            />)
             .with("home", () => <Home
                 setNextPage={setPageNext}
                 userEmail={userEmail}
