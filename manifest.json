@@ -8,6 +8,7 @@
   "isSingleInstall": true,
   "hasDevMode": true,
   "serveUrl": "https://apps-cdn.deskpro-service.com/__name__/__version__",
+  "secrets": "fCrgG0rEg2slVbzPgLX4NaIhyCufN2Ku1OIkQgOVIcLlFP0NEay3pnpTfVaynvnwagzdz++p1pZWVuBsYyK7xM7lPOguzCRHrCG9/tzNjXStmGm91+0qXafvoyECdsV845P63m565TUnD11GUedHs9ny1zp97vD7iXCaTmlNvUX1ZeXNRgqpLsl9cZ8vCEvzaLTZQpj1JQ/PkvXhWW7hcNi4WOiGyE1XLwwZU5lAxAathaK6HhAbaPoWzi9c5nXuwx+PAVxkRia7ZQlKonOMxoHehEoOdS5IZc9PuU6j3/WEy5iu9ghw4Y5j2YQweL8i0cZufbWkvr9Jmy8Zqp/uh8KgT75sJBdwlleKm8JdsoVLxya4K0mNtve1dvNTi0cWVXs8FyjmObhT2YBlObeIHGnOgqiN8AlQvUaE0tXy/v+S/wbAcb0Dbwx+85W0aLiCTGZPjtyn5nl4oQpfPiIE57hM8a/UxH8i2HBoSEg56V6lSQNxa79Svopr9DpdRN1BEnhnJLt3vjK+wXG7UmuvYK70pOVV6AZhE2nS2aQb5KE7w253ov3+54Geu3KN9pE8t134LzF7q2GadVajv2Dn414QrHh6BeOjK79JlLehHfWQUYjA5rtEKLSwQ6pE+7aJb5F71bZaqj4F2BPY+qbz+69MKWotxF8LjfyqQlg3PGNqyf36Q8Q5bdiB3wkP7Tu3ZxbNt/4yQodI97gcb6BT1EuoxE5KeqCFi8Y3EEuNW5q74CRAeQ5581TTNAJhxf+xFS1swo4Jh4IcomDRxxnzZwiNTdxQcnk2z+2L1CQ9Jqbl6srl+URZFVfOAeKRR8HK1OUCRstKAEIykht8BGmUMuhcnWnFBNgnwAWpmEZzNnfV5M9hEpWwNG8K6R1BS9b5A7ItBMxv7pJCpg11iWRIczEk3I4rdUhlWlDzujVIGeiq95Vxz6KBc2EjJKfH9tgoYwELOvG1s0/Bn1oxkn60rIznblrMkZGbUz2jY+5KC6c17Toby4UiRWZ/mfvUauX3OkPnwVNGBNXkl3oOEHx0UJ3ucgtspPMk+WmCsy0qPLmIEI6W5JvxvPdIE8cnz/TqydBeZmhzHDmYk1KLQ1s0DQ==",
   "targets": [{ "target": "user_sidebar", "entrypoint": "index.html" }],
   "settings": {
     "use_deskpro_saas": {
