@@ -5,8 +5,8 @@ import { AnchorButton } from '@deskpro/deskpro-ui';
 import { SetNextPage, Settings } from './types';
 import { GLOBAL_CLIENT_ID } from '../constants';
 import Container from '../components/Container/Container';
-import { getAccessToken } from '../services/getAccessToken';
-import setAccessToken from '../services/setAccessToken';
+import { getAccessToken } from '../api/getAccessToken';
+import { setAccessToken } from '../api/setAccessToken';
 
 interface LogIn {
     setNextPage: SetNextPage;
