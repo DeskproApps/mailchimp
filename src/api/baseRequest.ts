@@ -59,16 +59,8 @@ export const baseRequest: BaseRequestType = async ({
     const response = await fetch(requestURL, { method, headers, body });
 
     if (response.status < 200 || response.status >= 400) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const errorResponse = await response.json();
-
-        throw new Error(`ProductBoard API Error: ${JSON.stringify(errorResponse)}`);
+        throw new Error('Mailchimp API Error');
     };
 
-    try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return await response.json();
-    } catch (error) {
-        return undefined;
-    };
+    return await response.json();
 };
