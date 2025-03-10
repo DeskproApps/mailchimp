@@ -32,8 +32,9 @@
       "title": "Domain",
       "description": "Your Mailchimp API subdomain, e.g. \"us20\"",
       "type": "string",
-      "isRequired": false,
+      "isRequired": true,
       "isBackendOnly": false,
+      "default": "us11",
       "order": 3
     },
     "api_key": {
