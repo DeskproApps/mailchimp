@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { createSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { CopyToClipboardInput, LoadingSpinner, useInitialisedDeskproAppClient } from '@deskpro/app-sdk';
-import { DeskproTheme, P1 } from '@deskpro/deskpro-ui';
+import { P1 } from '@deskpro/deskpro-ui';
 
 const Description = styled(P1)`
     margin-top: 8px;
-    color: ${({ theme }) => (theme as DeskproTheme).colors.grey80};
+    color: ${({ theme }) => theme.colors.grey80};
 `;
 
 export function AdminCallback() {
