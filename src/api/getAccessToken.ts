@@ -27,7 +27,7 @@ export async function getAccessToken({ client, code, redirectURI }: GetAccessTok
         });
 
         if (!response.ok) {
-            throw new Error(await response.json());
+            throw new Error('error getting access token');
         };
 
         const data = await response.json();
