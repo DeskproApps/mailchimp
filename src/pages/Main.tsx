@@ -33,7 +33,9 @@ export const Main: FC = () => {
   });
 
   useInitialisedDeskproAppClient(async client => {
-    if (!context) return;
+    if (!context) {
+      return;
+    };
 
     const isUsingOAuth2 = context.settings.use_api_key !== true;
 
