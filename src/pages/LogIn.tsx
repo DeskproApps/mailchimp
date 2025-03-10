@@ -2,11 +2,12 @@ import { useCallback, useRef, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Title, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from '@deskpro/app-sdk';
 import { AnchorButton } from '@deskpro/deskpro-ui';
-import { SetNextPage, Settings } from './types';
-import { GLOBAL_CLIENT_ID } from '../constants';
 import Container from '../components/Container/Container';
 import { getAccessToken } from '../api/getAccessToken';
 import { setAccessToken } from '../api/setAccessToken';
+import { GLOBAL_CLIENT_ID } from '../constants';
+import { SetNextPage, Settings } from './types';
+import { ErrorBlock } from '../components/ErrorBlock/ErrorBlock';
 
 interface LogIn {
     setNextPage: SetNextPage;
@@ -18,6 +19,7 @@ export function LogIn({ setNextPage }: LogIn) {
     const callbackURLRef = useRef('');
     const [authorisationURL, setAuthorisationURL] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     useInitialisedDeskproAppClient(async client => {
         if (context?.settings.use_deskpro_saas === undefined) {
@@ -70,7 +72,7 @@ export function LogIn({ setNextPage }: LogIn) {
             await setAccessToken({ client, token: pollResult.data.access_token });
             setNextPage('home');
         } catch (error) {
-
+            setError(error instanceof Error ? error.message : 'error logging in');
         } finally {
             setIsLoading(false);
         };
@@ -92,6 +94,7 @@ export function LogIn({ setNextPage }: LogIn) {
                 disabled={!authorisationURL || isLoading}
                 onClick={onLogIn}
             />
+            {error && <ErrorBlock errors={[error]} />}
         </Container>
     );
 };
