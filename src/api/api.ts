@@ -226,9 +226,9 @@ export const subscribeNewAudienceMember = async (client: IDeskproClient, audienc
 type GetCampaignActivityResponse = {
   campaigns: {
     id: string;
-    status: any;
-    send_time: any;
-    web_id: any;
+    status: keyof typeof campaignActivityImportanceMap;
+    send_time: string;
+    web_id: number;
     settings: {
       title: string;
       subject_line: string;
@@ -237,7 +237,10 @@ type GetCampaignActivityResponse = {
 };
 
 type ActivitiesResponse = {
-  activity: any[];
+  activity: {
+    action: CampaignActivityAction;
+    timestamp: string;
+  }[];
 };
 
 export const getCampaignActivity = async (client: IDeskproClient, members: Member[]): Promise<CampaignActivities|null> => {
