@@ -66,9 +66,15 @@ const campaignActivityImportanceActions = (
   ];
 };
 
+type GetMemberListsResponse = {
+  exact_matches: {
+    members: [];
+  };
+};
+
 export const getMemberLists = async (client: IDeskproClient, email: string): Promise<Member[]|null> => {
   try {
-    const data = await baseRequest({
+    const data = await baseRequest<GetMemberListsResponse>({
       client,
       endpoint: `/search-members?query=${email}`
     });
@@ -100,9 +106,13 @@ export const getMemberLists = async (client: IDeskproClient, email: string): Pro
   }
 };
 
+type GetAudiencesResponse = {
+  lists: [];
+};
+
 export const getAudiences = async (client: IDeskproClient, email?: string): Promise<AudienceList> => {
   try {
-    const data = await baseRequest({
+    const data = await baseRequest<GetAudiencesResponse>({
       client,
       endpoint: `/lists?offset=0&count=1000${email && `&email=${email}`}`
     });
@@ -124,9 +134,18 @@ export const getAudiences = async (client: IDeskproClient, email?: string): Prom
   }
 }
 
+type UpdateAudienceSubscriptionResponse = {
+  errors: {error: string}[];
+  updated_members: {id: string}[];
+};
+
+type MemberDataResponse = {
+  marketing_permissions: {marketing_permission_id: string}[];
+};
+
 export const updateAudienceSubscription = async (client: IDeskproClient, audienceId: string, email: string, status: AudienceStatus): Promise<boolean|string[]> => {
   try {
-    const data = await baseRequest({
+    const data = await baseRequest<UpdateAudienceSubscriptionResponse>({
       client,
       method: 'POST',
       endpoint: `/lists/${audienceId}?skip_merge_validation=true&skip_duplicate_check=true`,
@@ -146,7 +165,7 @@ export const updateAudienceSubscription = async (client: IDeskproClient, audienc
     if (status === "subscribed" && data?.updated_members[0]?.id) {
       const memberId: string = data.updated_members[0].id;
 
-      const memberData = await baseRequest({
+      const memberData = await baseRequest<MemberDataResponse>({
         client,
         endpoint: `/lists/${audienceId}/members/${memberId}`
       });
@@ -173,7 +192,7 @@ export const subscribeNewAudienceMember = async (client: IDeskproClient, audienc
     const emailParsed = email.trim().toLowerCase();
     const subscriberHash = Md5.hashStr(emailParsed);
 
-    const data = await baseRequest({
+    const data = await baseRequest<MemberDataResponse>({
       client,
       method: 'PUT',
       endpoint: `/lists/${audienceId}/members/${subscriberHash}`,
@@ -204,6 +223,23 @@ export const subscribeNewAudienceMember = async (client: IDeskproClient, audienc
   }
 };
 
+type GetCampaignActivityResponse = {
+  campaigns: {
+    id: string;
+    status: any;
+    send_time: any;
+    web_id: any;
+    settings: {
+      title: string;
+      subject_line: string;
+    }
+  }[];
+};
+
+type ActivitiesResponse = {
+  activity: any[];
+};
+
 export const getCampaignActivity = async (client: IDeskproClient, members: Member[]): Promise<CampaignActivities|null> => {
   const allActivities: CampaignActivities = [];
 
@@ -211,7 +247,7 @@ export const getCampaignActivity = async (client: IDeskproClient, members: Membe
     const requests = members.map(async (member: Member) => {
       const resultActivities: CampaignActivities = [];
 
-      const campaigns = await baseRequest({
+      const campaigns = await baseRequest<GetCampaignActivityResponse>({
         client,
         endpoint: `/campaigns/?offset=0&count=1000&member_id=${member.id}`
       });
@@ -219,7 +255,7 @@ export const getCampaignActivity = async (client: IDeskproClient, members: Membe
       const subscriberHash = Md5.hashStr(member.email.toLowerCase());
 
       for (const campaign of (campaigns.campaigns ?? [])) {
-        const activities = await baseRequest({
+        const activities = await baseRequest<ActivitiesResponse>({
           client,
           endpoint: `/reports/${campaign.id}/email-activity/${subscriberHash}`
         });

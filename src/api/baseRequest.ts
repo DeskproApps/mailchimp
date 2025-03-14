@@ -7,12 +7,10 @@ interface BaseRequest {
     method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
     queryParameters?: URLSearchParams;
     headers?: Record<string, string>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data?: FormData | Record<string, any>;
+    data?: FormData | Record<string, unknown>;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type BaseRequestType = <T = any>(parameters: BaseRequest) => Promise<T>;
+type BaseRequestType = <T>(parameters: BaseRequest) => Promise<T>;
 
 export const baseRequest: BaseRequestType = async ({
     client,
