@@ -3,7 +3,7 @@
   "title": "Mailchimp",
   "description": "Link Deskpro user profiles to Mailchimp contacts so agents can see which audiences and campaigns users are subscribed to",
   "appStoreUrl": "https://www.deskpro.com/product-embed/apps/mailchimp",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "scope": "agent",
   "isSingleInstall": true,
   "hasDevMode": true,
@@ -64,10 +64,7 @@
     "callback_url": {
       "title": "Callback URL",
       "type": "app_embedded",
-      "options": {
-        "entrypoint": "#/admin/callback",
-        "height": "100px"
-      },
+      "options": { "entrypoint": "#/admin/callback", "height": "100px" },
       "isRequired": false,
       "isBackendOnly": true,
       "condition": "settings.use_deskpro_saas != true && settings.use_access_token != true",
@@ -83,10 +80,7 @@
       },
       {
         "url": "https://login.mailchimp.com/oauth2/.*",
-        "methods": [
-          "GET",
-          "POST"
-        ],
+        "methods": ["GET", "POST"],
         "timeout": 30
       }
     ]
