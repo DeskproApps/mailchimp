@@ -11,7 +11,7 @@
     "lint": "eslint --max-warnings 0 --ext ts,tsx ./src"
   },
   "dependencies": {
-    "@deskpro/app-sdk": "^5.1.1",
+    "@deskpro/app-sdk": "^6.0.3",
     "@deskpro/deskpro-ui": "^8.2.0",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
@@ -22,6 +22,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-resize-observer": "^1.1.1",
+    "react-router-dom": "^7.2.0",
     "ts-md5": "1.2.10",
     "ts-pattern": "^3.3.5"
   },
