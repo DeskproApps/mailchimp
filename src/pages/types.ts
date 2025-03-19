@@ -8,7 +8,7 @@ export type Page =
 export type SetNextPage = (page: Page, props?: any) => void;
 
 export interface Settings {
-    use_deskpro_saas?: boolean;
+    use_advanced_connect?: boolean;
     use_api_key?: boolean;
     client_id?: string;
     domain?: string;
