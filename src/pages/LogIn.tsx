@@ -1,9 +1,9 @@
-import { AnchorButton } from '@deskpro/deskpro-ui';
+import { AnchorButton, H3 } from '@deskpro/deskpro-ui';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { ErrorBlock } from '../components/ErrorBlock/ErrorBlock';
 import { getAccessToken } from '../api/getAccessToken';
 import { GLOBAL_CLIENT_ID } from '../constants';
-import { IOAuth2, Title, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from '@deskpro/app-sdk';
+import { IOAuth2, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from '@deskpro/app-sdk';
 import { setAccessToken } from '../api/setAccessToken';
 import { SetNextPage, Settings } from './types';
 import { useCallback, useRef, useState } from 'react';
@@ -105,7 +105,7 @@ export function LogIn({ setNextPage }: LogIn) {
 
     return (
         <Container>
-            <Title title='Log into Mailchimp' />
+            <H3>Log into Mailchimp</H3>
             <AnchorButton
                 text='Log In'
                 target='_blank'
