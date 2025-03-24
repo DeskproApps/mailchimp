@@ -1,8 +1,8 @@
 import { FC, ReactNode, useState } from 'react';
-import {Page, Settings} from "./types";
-import {__, match} from "ts-pattern";
-import {Home} from "./Home";
-import {View} from "./View";
+import { Page, Settings } from "./types";
+import { __, match } from "ts-pattern";
+import { Home } from "./Home";
+import { View } from "./View";
 import { LogIn } from './LogIn';
 import {
   Context,
@@ -12,8 +12,8 @@ import {
   useDeskproLatestAppContext,
   useInitialisedDeskproAppClient
 } from "@deskpro/app-sdk";
-import {UserContextData, UserName} from "../types";
-import {archiveMember} from "../api/api";
+import { UserContextData, UserName } from "../types";
+import { archiveMember } from "../api/api";
 import { IS_USING_OAUTH2 } from '../constants';
 
 export const Main: FC = () => {
@@ -24,8 +24,8 @@ export const Main: FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pageProps, setPageProps] = useState<any>(undefined);
 
-  const [userEmail, setUserEmail] = useState<string|null>(null);
-  const [userName, setUserName] = useState<UserName|null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<UserName | null>(null);
   const [settings, setSettings] = useState<Settings>({});
 
   useInitialisedDeskproAppClient((client) => {
@@ -37,10 +37,10 @@ export const Main: FC = () => {
       return;
     };
 
-    const isUsingOAuth2 = context.settings.use_api_key !== true;
+    const isUsingOAuth = context?.settings.use_api_key === false || context?.settings.use_advanced_connect === false
 
-    await client.setUserState(IS_USING_OAUTH2, isUsingOAuth2);
-    setPage(isUsingOAuth2 ? 'logIn' : 'home');
+    await client.setUserState(IS_USING_OAUTH2, isUsingOAuth);
+    setPage(isUsingOAuth ? 'logIn' : 'home');
   }, [context]);
 
   useDeskproAppEvents({
@@ -76,20 +76,20 @@ export const Main: FC = () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onElementEvent: (id: string, type: string, payload: any) => match([id, type, payload])
-        .with(["view_menu", __, { action: "archive_mailchimp_user", audience: __, member: __ }], () => {
-          if (!client || !payload) {
-            return;
-          }
+      .with(["view_menu", __, { action: "archive_mailchimp_user", audience: __, member: __ }], () => {
+        if (!client || !payload) {
+          return;
+        }
 
-          archiveMember(client, payload.audience.id, payload.member.id)
-              .then(() => setPageNext("view", {
-                member: null,
-                audience: payload.audience,
-                isArchived: true,
-              }))
+        archiveMember(client, payload.audience.id, payload.member.id)
+          .then(() => setPageNext("view", {
+            member: null,
+            audience: payload.audience,
+            isArchived: true,
+          }))
           ;
-        })
-        .run()
+      })
+      .run()
     ,
   }, [client]);
 
@@ -100,29 +100,29 @@ export const Main: FC = () => {
   };
 
   return (
-      <>
-        {
-          match<Page, ReactNode>(page)
-            .with('loading', () => <LoadingSpinner />)
-            .with('logIn', () => <LogIn
-              setNextPage={setPageNext}
-            />)
-            .with("home", () => <Home
-                setNextPage={setPageNext}
-                userEmail={userEmail}
-                userName={userName}
-                settings={settings}
-                {...pageProps}
-            />)
-            .with("view", () => <View
-                setNextPage={setPageNext}
-                userEmail={userEmail}
-                userName={userName}
-                settings={settings}
-                {...pageProps}
-            />)
-            .exhaustive()
-        }
-      </>
+    <>
+      {
+        match<Page, ReactNode>(page)
+          .with('loading', () => <LoadingSpinner />)
+          .with('logIn', () => <LogIn
+            setNextPage={setPageNext}
+          />)
+          .with("home", () => <Home
+            setNextPage={setPageNext}
+            userEmail={userEmail}
+            userName={userName}
+            settings={settings}
+            {...pageProps}
+          />)
+          .with("view", () => <View
+            setNextPage={setPageNext}
+            userEmail={userEmail}
+            userName={userName}
+            settings={settings}
+            {...pageProps}
+          />)
+          .exhaustive()
+      }
+    </>
   );
 };
