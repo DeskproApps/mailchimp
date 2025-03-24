@@ -1,13 +1,13 @@
-import { useCallback, useRef, useState } from 'react';
+import { AnchorButton, H3 } from '@deskpro/deskpro-ui';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { Title, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from '@deskpro/app-sdk';
-import { AnchorButton } from '@deskpro/deskpro-ui';
-import Container from '../components/Container/Container';
-import { getAccessToken } from '../api/getAccessToken';
-import { setAccessToken } from '../api/setAccessToken';
-import { GLOBAL_CLIENT_ID } from '../constants';
-import { SetNextPage, Settings } from './types';
 import { ErrorBlock } from '../components/ErrorBlock/ErrorBlock';
+import { getAccessToken } from '../api/getAccessToken';
+import { GLOBAL_CLIENT_ID } from '../constants';
+import { IOAuth2, useDeskproLatestAppContext, useInitialisedDeskproAppClient } from '@deskpro/app-sdk';
+import { setAccessToken } from '../api/setAccessToken';
+import { SetNextPage, Settings } from './types';
+import { useCallback, useRef, useState } from 'react';
+import Container from '../components/Container/Container';
 
 interface LogIn {
     setNextPage: SetNextPage;
@@ -19,14 +19,18 @@ export function LogIn({ setNextPage }: LogIn) {
     const callbackURLRef = useRef('');
     const [authorisationURL, setAuthorisationURL] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isPolling, setIsPolling] = useState(false)
+    const [oAuth2Context, setOAuth2Context] = useState<IOAuth2 | null>(null)
     const [error, setError] = useState('');
+    const isUsingOAuth = context?.settings.use_api_key === false || context?.settings.use_advanced_connect === false
+
 
     useInitialisedDeskproAppClient(async client => {
         if (!context?.settings) {
             return;
         };
 
-        if (context.settings.use_api_key === true) {
+        if (!isUsingOAuth) {
             return;
         };
 
@@ -37,7 +41,7 @@ export function LogIn({ setNextPage }: LogIn) {
             return;
         };
 
-        const oauth2 = mode === 'global' ? await client.startOauth2Global(GLOBAL_CLIENT_ID) : await client.startOauth2Local(
+        const oauth2Response = mode === 'global' ? await client.startOauth2Global(GLOBAL_CLIENT_ID) : await client.startOauth2Local(
             ({ callbackUrl, state }) => {
                 callbackURLRef.current = callbackUrl;
 
@@ -64,28 +68,44 @@ export function LogIn({ setNextPage }: LogIn) {
             }
         );
 
-        setAuthorisationURL(oauth2.authorizationUrl);
+        setAuthorisationURL(oauth2Response.authorizationUrl);
+        setOAuth2Context(oauth2Response)
 
-        try {
-            const pollResult = await oauth2.poll();
-
-            await setAccessToken({ client, token: pollResult.data.access_token });
-            setNextPage('home');
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'error logging in');
-        } finally {
-            setIsLoading(false);
-        };
     }, [context, navigate]);
+
+    useInitialisedDeskproAppClient((client) => {
+        if (!oAuth2Context) {
+            return
+        }
+
+        const startPolling = async () => {
+            try {
+                const pollResult = await oAuth2Context.poll();
+
+                await setAccessToken({ client, token: pollResult.data.access_token });
+                setNextPage('home');
+            } catch (error) {
+                setError(error instanceof Error ? error.message : 'error logging in');
+            } finally {
+                setIsLoading(false)
+                setIsPolling(false)
+            }
+        }
+
+        if (isPolling) {
+            void startPolling()
+        }
+    }, [isPolling, oAuth2Context, navigate])
 
     const onLogIn = useCallback(() => {
         setIsLoading(true);
+        setIsPolling(true);
         window.open(authorisationURL, '_blank');
-      }, [setIsLoading, authorisationURL]);
+    }, [setIsLoading, authorisationURL]);
 
     return (
         <Container>
-            <Title title='Log into Mailchimp' />
+            <H3>Log into Mailchimp</H3>
             <AnchorButton
                 text='Log In'
                 target='_blank'
