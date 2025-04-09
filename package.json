@@ -8,7 +8,9 @@
     "build:package": "pnpm build && pnpm package",
     "package": "rm -rf ./build/ && node ./bin/package.js",
     "bumpManifestVer": "node ./bin/bumpManifestVer.js",
-    "lint": "eslint --max-warnings 0 --ext ts,tsx ./src"
+    "lint": "eslint --max-warnings 0 --ext ts,tsx ./src",
+    "test": "echo 'No test suite available'",
+    "test:coverage": "echo 'No test suite available'"
   },
   "dependencies": {
     "@deskpro/app-sdk": "^6.0.3",
