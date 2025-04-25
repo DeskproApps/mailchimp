@@ -358,7 +358,7 @@ export const checkAuth = async (client: IDeskproClient) => {
     });
 
     return true;
-  } catch (e) {
+  } catch (error) {
     return false;
   };
 };
