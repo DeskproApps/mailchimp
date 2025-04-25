@@ -350,7 +350,7 @@ export const archiveMember = async (client: IDeskproClient, audienceId: string, 
   };
 };
 
-export const checkAuth = async (client: IDeskproClient): Promise<boolean> => {
+export const checkAuth = async (client: IDeskproClient) => {
   try {
     await baseRequest({
       client,
@@ -359,8 +359,6 @@ export const checkAuth = async (client: IDeskproClient): Promise<boolean> => {
 
     return true;
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(`failed to check auth: ${e}`);
     return false;
-  }
+  };
 };
