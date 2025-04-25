@@ -13,8 +13,8 @@ import {
   useInitialisedDeskproAppClient
 } from "@deskpro/app-sdk";
 import { UserContextData, UserName } from "../types";
-import { archiveMember } from "../api/api";
-import { IS_USING_OAUTH2 } from '../constants';
+import { archiveMember, checkAuth } from "../api/api";
+import { IS_USING_OAUTH } from '../constants';
 
 export const Main: FC = () => {
   const { client } = useDeskproAppClient();
@@ -39,8 +39,11 @@ export const Main: FC = () => {
 
     const isUsingOAuth = context?.settings.use_api_key === false || context?.settings.use_advanced_connect === false
 
-    await client.setUserState(IS_USING_OAUTH2, isUsingOAuth);
-    setPage(isUsingOAuth ? 'logIn' : 'home');
+    await client.setUserState(IS_USING_OAUTH, isUsingOAuth);
+
+    const isAuthenticated = await checkAuth(client);
+
+    setPage(isAuthenticated ? 'home' : 'logIn');
   }, [context]);
 
   useDeskproAppEvents({

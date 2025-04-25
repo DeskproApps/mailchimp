@@ -349,3 +349,18 @@ export const archiveMember = async (client: IDeskproClient, audienceId: string, 
     throw new Error("Failed to archive member");
   };
 };
+
+export const checkAuth = async (client: IDeskproClient): Promise<boolean> => {
+  try {
+    await baseRequest({
+      client,
+      endpoint: '/ping'
+    });
+
+    return true;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(`failed to check auth: ${e}`);
+    return false;
+  }
+};
