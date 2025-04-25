@@ -15,6 +15,7 @@ import {
 import { UserContextData, UserName } from "../types";
 import { archiveMember, checkAuth } from "../api/api";
 import { IS_USING_OAUTH } from '../constants';
+import { ErrorBlock } from '../components/ErrorBlock/ErrorBlock';
 
 export const Main: FC = () => {
   const { client } = useDeskproAppClient();
@@ -43,7 +44,17 @@ export const Main: FC = () => {
 
     const isAuthenticated = await checkAuth(client);
 
-    setPage(isAuthenticated ? 'home' : 'logIn');
+    if (isUsingOAuth) {
+      setPage(isAuthenticated ? 'home' : 'logIn');
+
+      return;
+    };
+
+    if (isAuthenticated) {
+      setPage('home');
+    } else {
+      setPage('error');
+    };
   }, [context]);
 
   useDeskproAppEvents({
@@ -106,6 +117,7 @@ export const Main: FC = () => {
     <>
       {
         match<Page, ReactNode>(page)
+          .with('error', () => <ErrorBlock errors={['failed to ping MailChimp; please double-check API key in settings']} />)
           .with('loading', () => <LoadingSpinner />)
           .with('logIn', () => <LogIn
             setNextPage={setPageNext}
