@@ -113,11 +113,13 @@ export const Main: FC = () => {
     setPage(page);
   };
 
+  const errorMessage = 'error: unable to reach MailChimp API. Possible causes include invalid credentials, network issues, or MailChimp API downtime. Please check your settings or try again later'
+
   return (
     <>
       {
         match<Page, ReactNode>(page)
-          .with('error', () => <ErrorBlock errors={['failed to ping MailChimp; please double-check API key in settings']} />)
+          .with('error', () => <ErrorBlock errors={[errorMessage]} />)
           .with('loading', () => <LoadingSpinner />)
           .with('logIn', () => <LogIn
             setNextPage={setPageNext}
