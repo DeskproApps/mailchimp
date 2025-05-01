@@ -2,7 +2,8 @@ export type Page =
     | 'loading'
     | 'logIn'
     | 'home'
-    | 'view';
+    | 'view'
+    | 'error';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SetNextPage = (page: Page, props?: any) => void;

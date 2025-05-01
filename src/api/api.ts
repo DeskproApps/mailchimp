@@ -349,3 +349,16 @@ export const archiveMember = async (client: IDeskproClient, audienceId: string, 
     throw new Error("Failed to archive member");
   };
 };
+
+export const checkAuth = async (client: IDeskproClient) => {
+  try {
+    await baseRequest({
+      client,
+      endpoint: '/ping'
+    });
+
+    return true;
+  } catch (error) {
+    return false;
+  };
+};

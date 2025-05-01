@@ -1,5 +1,5 @@
 import { IDeskproClient, proxyFetch } from '@deskpro/app-sdk';
-import { IS_USING_OAUTH2, OAUTH2_ACCESS_TOKEN_PATH } from '../constants';
+import { IS_USING_OAUTH, OAUTH2_ACCESS_TOKEN_PATH } from '../constants';
 
 interface BaseRequest {
     client: IDeskproClient;
@@ -21,11 +21,11 @@ export const baseRequest: BaseRequestType = async ({
     data
 }) => {
     const fetch = await proxyFetch(client);
-    const isUsingOAuth2 = (await client.getUserState<boolean>(IS_USING_OAUTH2))[0].data;
+    const isUsingOAuth = (await client.getUserState<boolean>(IS_USING_OAUTH))[0].data;
 
     // URL
     
-    const baseURL = isUsingOAuth2 ? 'https://__domain__.api.mailchimp.com/3.0' : 'https://x:__api_key__@__domain__.api.mailchimp.com/3.0';
+    const baseURL = isUsingOAuth ? 'https://__domain__.api.mailchimp.com/3.0' : 'https://x:__api_key__@__domain__.api.mailchimp.com/3.0';
     let requestURL = `${baseURL}${endpoint}`;
 
     if (queryParameters.size > 0) requestURL += `?${queryParameters.toString()}`;
@@ -36,7 +36,7 @@ export const baseRequest: BaseRequestType = async ({
         ...customHeaders
     };
 
-    if (isUsingOAuth2) {
+    if (isUsingOAuth) {
         headers['authorization'] = `Bearer [user[${OAUTH2_ACCESS_TOKEN_PATH}]]`;
     };
 

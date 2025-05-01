@@ -1,4 +1,4 @@
-export const IS_USING_OAUTH2 = 'isUsingOAuth2';
+export const IS_USING_OAUTH = 'isUsingOAuth';
 
 export const GLOBAL_CLIENT_ID = '623239525383';
 

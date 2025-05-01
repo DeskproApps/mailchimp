@@ -13,8 +13,9 @@ import {
   useInitialisedDeskproAppClient
 } from "@deskpro/app-sdk";
 import { UserContextData, UserName } from "../types";
-import { archiveMember } from "../api/api";
-import { IS_USING_OAUTH2 } from '../constants';
+import { archiveMember, checkAuth } from "../api/api";
+import { IS_USING_OAUTH } from '../constants';
+import { ErrorBlock } from '../components/ErrorBlock/ErrorBlock';
 
 export const Main: FC = () => {
   const { client } = useDeskproAppClient();
@@ -39,8 +40,21 @@ export const Main: FC = () => {
 
     const isUsingOAuth = context?.settings.use_api_key === false || context?.settings.use_advanced_connect === false
 
-    await client.setUserState(IS_USING_OAUTH2, isUsingOAuth);
-    setPage(isUsingOAuth ? 'logIn' : 'home');
+    await client.setUserState(IS_USING_OAUTH, isUsingOAuth);
+
+    const isAuthenticated = await checkAuth(client);
+
+    if (isUsingOAuth) {
+      setPage(isAuthenticated ? 'home' : 'logIn');
+
+      return;
+    };
+
+    if (isAuthenticated) {
+      setPage('home');
+    } else {
+      setPage('error');
+    };
   }, [context]);
 
   useDeskproAppEvents({
@@ -99,10 +113,13 @@ export const Main: FC = () => {
     setPage(page);
   };
 
+  const errorMessage = 'error: unable to reach MailChimp API. Possible causes include invalid credentials, network issues, or MailChimp API downtime. Please check your settings or try again later'
+
   return (
     <>
       {
         match<Page, ReactNode>(page)
+          .with('error', () => <ErrorBlock errors={[errorMessage]} />)
           .with('loading', () => <LoadingSpinner />)
           .with('logIn', () => <LogIn
             setNextPage={setPageNext}
