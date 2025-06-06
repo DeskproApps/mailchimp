@@ -1,9 +1,12 @@
+.idea
 node_modules
 .DS_Store
 dist
+build
 dist-ssr
 *.local
-.idea
-build
 /coverage
 .pnpm-store
+
+# Sentry Config File
+.env.sentry-build-plugin
