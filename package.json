@@ -13,25 +13,25 @@
     "test:coverage": "echo 'No test suite available'"
   },
   "dependencies": {
-    "@deskpro/app-sdk": "^6.0.6",
-    "@deskpro/deskpro-ui": "^8.3.1",
+    "@deskpro/app-sdk": "^6.0.8",
+    "@deskpro/deskpro-ui": "^8.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
-    "@sentry/react": "^9.38.0",
-    "@sentry/vite-plugin": "^3.5.0",
-    "formik": "^2.4.6",
+    "@fortawesome/react-fontawesome": "^0.2.6",
+    "@sentry/react": "^9.47.1",
+    "@sentry/vite-plugin": "^3.6.1",
+    "formik": "^2.4.9",
     "lodash": "^4.17.21",
     "polished": "^4.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-resize-observer": "^1.1.1",
-    "react-router-dom": "^7.6.3",
+    "react-router-dom": "^7.11.0",
     "ts-md5": "1.2.10",
     "ts-pattern": "^3.3.5"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.20",
+    "@types/lodash": "^4.17.21",
     "@types/react": "17.0.38",
     "@types/react-dom": "17.0.11",
     "@typescript-eslint/eslint-plugin": "5.6.0",
@@ -45,6 +45,6 @@
     "rollup-plugin-copy": "3.4.0",
     "slugify": "^1.6.6",
     "typescript": "5.7.2",
-    "vite": "^6.3.6"
+    "vite": "^6.4.1"
   }
 }
