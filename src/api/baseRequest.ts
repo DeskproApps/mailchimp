@@ -25,7 +25,7 @@ export const baseRequest: BaseRequestType = async ({
 
     // URL
     
-    const baseURL = isUsingOAuth ? 'https://__domain__.api.mailchimp.com/3.0' : 'https://x:__api_key__@__domain__.api.mailchimp.com/3.0';
+    const baseURL = 'https://__domain__.api.mailchimp.com/3.0';
     let requestURL = `${baseURL}${endpoint}`;
 
     if (queryParameters.size > 0) requestURL += `?${queryParameters.toString()}`;
@@ -38,7 +38,9 @@ export const baseRequest: BaseRequestType = async ({
 
     if (isUsingOAuth) {
         headers['authorization'] = `Bearer [user[${OAUTH2_ACCESS_TOKEN_PATH}]]`;
-    };
+    } else {
+        headers['authorization'] = 'Basic __\'x:\'+api_key.base64__';
+    }
 
     // body
 
